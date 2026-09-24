@@ -89,7 +89,7 @@ body.galactico-bg {
 }
 
 .galactico-content {
-  font-size: 2.5rem;
+  font-size: calc(2.5rem * var(--display-scale, 1));
   text-align: center;
   line-height: 2.5;
   letter-spacing: 3px;

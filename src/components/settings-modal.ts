@@ -65,7 +65,7 @@ export class SettingsModal {
         this.state.setTheme(t.id);
         this.updateThemeButtons(container, t.id);
       });
-      container.appendChild(btn);
+      themeContainer.appendChild(btn);
     });
 
     this.updateThemeButtons(container, this.state.getState().theme);
