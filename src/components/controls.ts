@@ -59,8 +59,7 @@ export class ControlsManager {
       <div class="control-separator"></div>
       <div class="chunk-options" id="chunk-options">
         <button class="btn btn-secondary chunk-opt" data-chunk="3">3</button>
-        <button class="btn btn-secondary chunk-opt" data-chunk="5">5</button>
-        <button class="btn btn-secondary chunk-opt" data-chunk="7">7</button>
+        <button class="btn btn-secondary chunk-opt" data-chunk="4">4</button>
       </div>
       <div class="control-separator"></div>
       <button class="btn btn-secondary" id="btn-font-dec">A⁻</button>
@@ -271,10 +270,26 @@ export class ControlsManager {
   }
 
   private handleChunkChange(size: number): void {
-    this.state.setChunkSize(size as 3 | 5 | 7);
+    this.state.setChunkSize(size as 3 | 4);
     document.querySelectorAll('.chunk-opt').forEach(btn => {
       (btn as HTMLElement).classList.toggle('active', Number((btn as HTMLElement).dataset.chunk) === size);
     });
+
+    if (this.state.getState().mode === 'chunk' && this.currentEngine) {
+      const text = this.state.getState().words.join(' ');
+      if (text) {
+    this.state.loadText(text);
+      }
+      const state = this.state.getState();
+      if (state.chunks.length > 0 && state.currentChunk >= state.chunks.length) {
+        this.state.update({ currentChunk: state.chunks.length - 1 });
+      }
+      this.currentEngine.render();
+      if (state.isRunning) {
+        this.currentEngine.pause();
+        this.currentEngine.scheduleNext();
+      }
+    }
   }
 
   private adjustDisplayScale(delta: number): void {

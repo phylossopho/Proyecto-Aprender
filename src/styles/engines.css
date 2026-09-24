@@ -32,21 +32,81 @@
 
 /* Chunk mode */
 .word-display.chunk-mode .chunk-box {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: nowrap;
+  white-space: nowrap;
   border-color: var(--pointer-color);
   background: rgba(124, 138, 255, 0.05);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  padding: 8px 12px;
+  border-radius: 8px;
+  max-width: 100%;
+}
+
+.word-display.chunk-mode .chunk-word {
+  display: inline-block;
+  font-weight: 400;
+  color: var(--text-primary);
+  margin-right: 0.45em;
+  flex-shrink: 0;
+  font-size: 3rem;
+}
+
+.word-display.chunk-mode .chunk-word:last-child {
+  margin-right: 0;
+}
+
+@media (max-width: 320px) {
+  .word-display.chunk-mode .chunk-word { font-size: 2rem; }
+}
+@media (min-width: 321px) and (max-width: 360px) {
+  .word-display.chunk-mode .chunk-word { font-size: 2.2rem; }
+}
+@media (min-width: 361px) and (max-width: 375px) {
+  .word-display.chunk-mode .chunk-word { font-size: 2.25rem; }
+}
+@media (min-width: 376px) and (max-width: 414px) {
+  .word-display.chunk-mode .chunk-word { font-size: 2.35rem; }
+}
+@media (min-width: 415px) and (max-width: 480px) {
+  .word-display.chunk-mode .chunk-word { font-size: 2.5rem; }
+}
+@media (min-width: 481px) and (max-width: 600px) {
+  .word-display.chunk-mode .chunk-word { font-size: 2.8rem; }
+}
+@media (min-width: 601px) and (max-width: 768px) {
+  .word-display.chunk-mode .chunk-word { font-size: 3rem; }
+}
+@media (min-width: 769px) and (max-width: 800px) {
+  .word-display.chunk-mode .chunk-word { font-size: 3.05rem; }
+}
+@media (min-width: 801px) and (max-width: 1024px) {
+  .word-display.chunk-mode .chunk-word { font-size: 3.2rem; }
+}
+@media (min-width: 1025px) and (max-width: 1280px) {
+  .word-display.chunk-mode .chunk-word { font-size: 3.3rem; }
+}
+@media (min-width: 1281px) and (max-width: 1366px) {
+  .word-display.chunk-mode .chunk-word { font-size: 3.35rem; }
+}
+@media (min-width: 1367px) and (max-width: 1440px) {
+  .word-display.chunk-mode .chunk-word { font-size: 3.4rem; }
+}
+@media (min-width: 1441px) and (max-width: 1600px) {
+  .word-display.chunk-mode .chunk-word { font-size: 3.5rem; }
+}
+@media (min-width: 1601px) and (max-width: 1920px) {
+  .word-display.chunk-mode .chunk-word { font-size: 3.6rem; }
+}
+@media (min-width: 1921px) and (max-width: 2560px) {
+  .word-display.chunk-mode .chunk-word { font-size: 3.75rem; }
+}
+@media (min-width: 2561px) {
+  .word-display.chunk-mode .chunk-word { font-size: 3.9rem; }
 }
 
 .word-display.chunk-mode .focal {
   font-size: 4.5rem;
-}
-
-.word-display.chunk-mode .chunk-word {
-  font-size: 3rem;
-  font-weight: 400;
-  color: var(--text-primary);
 }
 
 .word-display.chunk-mode .context-extra {

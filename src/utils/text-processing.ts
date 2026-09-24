@@ -33,31 +33,38 @@ export function splitIntoChunks(text: string, targetSize: number, maxCharsPerChu
   const allWords = text.trim().split(/\s+/).filter(w => w.length > 0);
   const result: TextChunk[] = [];
   let start = 0;
+  const resolvedMaxChars = maxCharsPerChunk ?? getChunkMaxCharsForWidth(window.innerWidth);
 
   while (start < allWords.length) {
-    let end = start + targetSize;
-    if (end > allWords.length) end = allWords.length;
-
-    if (maxCharsPerChunk != null) {
-      let chars = 0;
-      let candidateEnd = start;
-      for (let i = start; i < allWords.length; i++) {
-        const word = allWords[i];
-        const weight = word.length > 7 ? 2 : 1;
-        const projected = chars + word.length + (i > start ? 1 : 0);
-        if (i > start && (chars >= maxCharsPerChunk || projected > maxCharsPerChunk)) {
-          break;
-        }
-        chars = projected;
-        candidateEnd = i + 1;
-      }
-      if (candidateEnd > start) end = candidateEnd;
+    const first = allWords[start];
+    if (first.length >= 13) {
+      result.push({ words: [first], endsWith: getEndType(first) });
+      start += 1;
+      continue;
     }
 
-    for (let i = end; i > start; i--) {
-      const word = allWords[i - 1];
-      if (/[.!?…]$/.test(word)) { end = i; break; }
-      if (/[,;]$/.test(word) && (i - start) >= Math.ceil(targetSize / 2)) { end = i; break; }
+    let end = start + 1;
+    let chars = first.length;
+    let hasLongWord = first.length >= 9;
+
+    while (end < allWords.length && (end - start) < targetSize) {
+      const next = allWords[end];
+      if (next.length >= 13) break;
+      const projected = chars + 1 + next.length;
+      if (projected > resolvedMaxChars) break;
+      if (hasLongWord && (end - start) >= 2) break;
+      if (next.length >= 9 && (end - start) >= 2) break;
+      chars = projected;
+      end += 1;
+      if (next.length >= 9) hasLongWord = true;
+    }
+
+    if (end > start + 1) {
+      for (let i = end; i > start + 1; i--) {
+        const w = allWords[i - 1];
+        if (/[.!?…]$/.test(w)) { end = i; break; }
+        if (/[,;]$/.test(w) && (i - start) >= Math.ceil(targetSize / 2)) { end = i; break; }
+      }
     }
 
     const chunkWords = allWords.slice(start, end);
@@ -66,6 +73,35 @@ export function splitIntoChunks(text: string, targetSize: number, maxCharsPerChu
   }
 
   return result;
+}
+
+const CHUNK_MAXCHARS_BY_WIDTH: Array<{ width: number; maxChars: number }> = [
+  { width: 320, maxChars: 28 },
+  { width: 360, maxChars: 32 },
+  { width: 375, maxChars: 34 },
+  { width: 414, maxChars: 38 },
+  { width: 480, maxChars: 45 },
+  { width: 600, maxChars: 60 },
+  { width: 768, maxChars: 75 },
+  { width: 800, maxChars: 80 },
+  { width: 1024, maxChars: 100 },
+  { width: 1280, maxChars: 120 },
+  { width: 1366, maxChars: 130 },
+  { width: 1440, maxChars: 140 },
+  { width: 1600, maxChars: 155 },
+  { width: 1920, maxChars: 180 },
+  { width: 2560, maxChars: 220 },
+];
+
+function getChunkMaxCharsForWidth(width: number): number {
+  let maxChars = 118;
+  for (const rule of CHUNK_MAXCHARS_BY_WIDTH) {
+    if (width <= rule.width) {
+      maxChars = rule.maxChars;
+      break;
+    }
+  }
+  return maxChars;
 }
 
 export function formatTime(seconds: number): string {

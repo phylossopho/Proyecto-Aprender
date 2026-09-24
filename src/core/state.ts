@@ -33,6 +33,7 @@ export class StateManager {
       sentences: [],
       currentIndex: 0,
       currentChunk: 0,
+      currentWordIndex: 0,
       currentSentence: 0,
       isRunning: false,
       isPaused: false,
@@ -89,27 +90,42 @@ export class StateManager {
     this.listeners.forEach(l => l());
   }
 
-  loadText(text: string): void {
+  loadText(text: string, resetProgress = false): void {
     const words = text.trim().split(/\s+/).filter(w => w.length > 0);
     const sentences = splitSentences(text);
-    const maxChars = this.getMaxCharsPerChunk();
+    const maxChars = this.state.mode === 'chunk' ? undefined : this.getMaxCharsPerChunk();
     const chunks = splitIntoChunks(text, this.state.chunkSize, maxChars);
+
+    const currentWordIndex = resetProgress ? 0 : (this.state.currentWordIndex ?? 0);
+    let currentChunk = 0;
+    if (chunks.length > 0) {
+      let wordAccum = 0;
+      for (let i = 0; i < chunks.length; i++) {
+        if (currentWordIndex < wordAccum + chunks[i].words.length) {
+          currentChunk = i;
+          break;
+        }
+        wordAccum += chunks[i].words.length;
+        if (i === chunks.length - 1) currentChunk = i;
+      }
+    }
 
     this.update({
       words,
       chunks,
       sentences,
-      currentIndex: 0,
-      currentChunk: 0,
-      currentSentence: 0,
+      currentIndex: resetProgress ? 0 : this.state.currentIndex,
+      currentChunk,
+      currentSentence: resetProgress ? 0 : this.state.currentSentence,
+      currentWordIndex,
     });
   }
 
   private getMaxCharsPerChunk(): number | undefined {
     const width = window.innerWidth;
-    if (width < 480) return 20;
-    if (width < 768) return 35;
-    return 55;
+    if (width < 480) return 32;
+    if (width < 768) return 48;
+    return 70;
   }
 
   setMode(mode: Mode): void {
@@ -126,9 +142,6 @@ export class StateManager {
   setChunkSize(size: ChunkSize): void {
     this.update({ chunkSize: size });
     this.storage.saveChunkSize(size);
-    if (this.state.isRunning && this.state.mode === 'chunk') {
-      this.loadText(this.state.words.join(' '));
-    }
   }
 
   setTheme(theme: Theme): void {
@@ -143,6 +156,7 @@ export class StateManager {
       isPaused: false,
       currentIndex: 0,
       currentChunk: 0,
+      currentWordIndex: 0,
       currentSentence: 0,
       timerStart: Date.now(),
       pausedDuration: 0,
@@ -156,6 +170,7 @@ export class StateManager {
       isPaused: false,
       currentIndex: 0,
       currentChunk: 0,
+      currentWordIndex: 0,
       currentSentence: 0,
       timerStart: Date.now(),
       pausedDuration: 0,
@@ -184,6 +199,7 @@ export class StateManager {
       isPaused: false,
       currentIndex: 0,
       currentChunk: 0,
+      currentWordIndex: 0,
       currentSentence: 0,
       pausedDuration: 0,
     });
@@ -210,17 +226,31 @@ export class StateManager {
   }
 
   advanceNext(): boolean {
-    const { mode, words, chunks, sentences, currentIndex, currentChunk, currentSentence } = this.state;
+    const { mode, words, chunks, currentIndex, currentChunk, currentWordIndex, currentSentence } = this.state;
     let finished = false;
 
     if (mode === 'word') {
       if (currentIndex + 1 >= words.length) finished = true;
       else this.update({ currentIndex: currentIndex + 1 });
     } else if (mode === 'chunk') {
-      if (currentChunk + 1 >= chunks.length) finished = true;
-      else this.update({ currentChunk: currentChunk + 1 });
+      const chunk = chunks[currentChunk];
+      const nextWordIndex = currentWordIndex + (chunk?.words.length ?? 0);
+      if (nextWordIndex >= words.length) finished = true;
+      else {
+        let newChunk = currentChunk;
+        let wordAccum = 0;
+        for (let i = 0; i < chunks.length; i++) {
+          if (nextWordIndex < wordAccum + chunks[i].words.length) {
+            newChunk = i;
+            break;
+          }
+          wordAccum += chunks[i].words.length;
+          if (i === chunks.length - 1) newChunk = i;
+        }
+        this.update({ currentWordIndex: nextWordIndex, currentChunk: newChunk });
+      }
     } else if (mode === 'line') {
-      if (currentSentence + 1 >= sentences.length) finished = true;
+      if (currentSentence + 1 >= this.state.sentences.length) finished = true;
       else this.update({ currentSentence: currentSentence + 1 });
     }
 
