@@ -97,18 +97,18 @@ class App {
          </div>
        </header>
 
-       <main class="main-area">
-         <div class="mode-badge" id="mode-badge" style="display:none;"></div>
-         <div class="word-display" id="word-display">
-           <span class="mensaje-inicio">Selecciona una categoría para comenzar</span>
-         </div>
-         <div class="line-timer-bar" id="line-timer-bar" style="display:none;">
-           <div class="line-timer-fill" id="line-timer-fill"></div>
-         </div>
-         <div class="pause-indicator" id="pause-indicator">PAUSADO</div>
-       </main>
+        <main class="main-area">
+          <div class="mode-badge is-hidden" id="mode-badge"></div>
+          <div class="word-display" id="word-display">
+            <span class="mensaje-inicio">Selecciona una categoría para comenzar</span>
+          </div>
+          <div class="line-timer-bar is-hidden" id="line-timer-bar">
+            <div class="line-timer-fill" id="line-timer-fill"></div>
+          </div>
+          <div class="pause-indicator is-hidden" id="pause-indicator">PAUSADO</div>
+        </main>
 
-         <div class="controls" id="controls-container">
+         <div class="controls is-hidden" id="controls-container">
           <button class="btn btn-secondary" id="btn-pause">⏸️</button>
           <div class="control-separator"></div>
           <button class="btn btn-secondary" id="btn-reset">🔁</button>
@@ -220,13 +220,13 @@ class App {
   }
 
   private ocultarDistracciones(hide: boolean): void {
-    const appTitle = document.querySelector('.app-title') as HTMLElement;
+    const appTitle = document.querySelector('.app-title') as HTMLElement | null;
     const statsBar = document.getElementById('stats-bar');
     const modeBadge = document.getElementById('mode-badge');
     const settingsBtns = document.querySelectorAll('.settings-btn');
-    if (appTitle) appTitle.style.display = hide ? 'none' : 'block';
-    if (statsBar) statsBar.style.display = hide ? 'none' : 'flex';
-    if (modeBadge) modeBadge.style.display = hide ? 'none' : 'block';
+    if (appTitle) appTitle.classList.toggle('is-hidden', hide);
+    if (statsBar) statsBar.classList.toggle('is-hidden', hide);
+    if (modeBadge) modeBadge.classList.toggle('is-hidden', hide);
     settingsBtns.forEach(btn => {
       btn.setAttribute('data-hidden', hide ? 'true' : 'false');
     });
@@ -256,7 +256,7 @@ class App {
     this.controls.startEngine();
 
     const controls = document.getElementById('controls-container');
-    if (controls) controls.classList.add('controls-visible');
+    if (controls) controls.classList.remove('is-hidden');
 
     const wordDisplay = document.getElementById('word-display');
     if (wordDisplay) {

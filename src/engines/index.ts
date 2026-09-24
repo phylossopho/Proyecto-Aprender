@@ -66,7 +66,7 @@ export abstract class BaseEngine implements Engine {
       bionic: 'Bionic', columna: 'Columna', pacer: 'Guía', sinregresion: 'Sin regresión', skim: 'Skim',
     };
     badge.textContent = labels[mode] || mode;
-    badge.style.display = isRunning ? 'none' : 'block';
+    badge.classList.toggle('is-hidden', isRunning);
   }
 
   protected setWordDisplayClass(className: string): void {
@@ -231,9 +231,9 @@ export class LineEngine extends BaseEngine {
     this.state.update({ currentIndex: currentSentence });
 
     const counter = document.getElementById('word-counter');
-    if (counter) counter.style.display = 'none';
+    if (counter) counter.classList.add('is-hidden');
 
-    if (this.lineTimerBar) this.lineTimerBar.style.display = 'block';
+    if (this.lineTimerBar) this.lineTimerBar.classList.remove('is-hidden');
 
     this.sentenceStartTime = Date.now();
     this.sentenceDuration = (totalWords / wpm) * 60000;
@@ -292,7 +292,7 @@ export class LineEngine extends BaseEngine {
     this.state.clearSchedule();
     this.setWordDisplayHTML('<span>Prepara tu texto y haz clic en Iniciar</span>');
     this.setWordDisplayClass('word-display');
-    if (this.lineTimerBar) this.lineTimerBar.style.display = 'none';
+    if (this.lineTimerBar) this.lineTimerBar.classList.add('is-hidden');
     if (this.lineTimerFill) this.lineTimerFill.style.width = '100%';
   }
 }
@@ -585,11 +585,7 @@ export class GalacticoEngine extends BaseEngine {
     this.setWordDisplayClass('word-display');
     document.body.classList.remove('galactico-bg');
     if (this.wordDisplay) {
-      this.wordDisplay.style.background = '';
-      this.wordDisplay.style.overflow = '';
-      this.wordDisplay.style.position = '';
-      this.wordDisplay.style.zIndex = '';
-      this.wordDisplay.style.perspective = '';
+      this.wordDisplay.classList.remove('galactico-display');
     }
   }
 

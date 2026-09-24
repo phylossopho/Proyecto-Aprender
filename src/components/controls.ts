@@ -86,14 +86,14 @@ export class ControlsManager {
     // Toggle controls container visibility based on session state
     const controlsContainer = document.getElementById('controls-container');
     if (controlsContainer) {
-      controlsContainer.classList.toggle('controls-visible', state.isRunning);
+      controlsContainer.classList.toggle('is-hidden', !state.isRunning);
     }
 
     // Update mode badge
     if (this.modeBadge) {
       const labels: Record<string, string> = { word: 'Palabra', chunk: 'Grupo', line: 'Frase', galactico: 'Galáctico', texts: 'Textos' };
       this.modeBadge.textContent = labels[state.mode] || state.mode;
-      this.modeBadge.style.display = state.isRunning ? 'none' : 'block';
+      this.modeBadge.classList.toggle('is-hidden', state.isRunning);
     }
 
     // Update chunk row visibility
@@ -134,8 +134,9 @@ export class ControlsManager {
   }
 
   private updateChunkRowVisibility(): void {
-    if (this.chunkRow) {
-      this.chunkRow.style.display = this.state.getState().mode === 'chunk' ? 'flex' : 'none';
+    const chunkRow = document.getElementById('chunk-row');
+    if (chunkRow) {
+      chunkRow.classList.toggle('is-hidden', this.state.getState().mode !== 'chunk');
     }
   }
 
@@ -199,7 +200,7 @@ export class ControlsManager {
     this.currentEngine.scheduleNext();
 
     const controls = document.getElementById('controls-container');
-    if (controls) controls.classList.add('controls-visible');
+    if (controls) controls.classList.remove('is-hidden');
 
     SistemaAudio.getInstance().reproducir('reiniciar');
   }
@@ -282,7 +283,7 @@ export class ControlsManager {
 
   private ocultarControles(): void {
     const controls = document.getElementById('controls-container');
-    if (controls) controls.classList.remove('controls-visible');
+    if (controls) controls.classList.add('is-hidden');
     const wordDisplay = document.getElementById('word-display');
     if (wordDisplay) {
       const span = wordDisplay.querySelector('span');
@@ -300,7 +301,7 @@ export class ControlsManager {
   }
 
   private updateLineTimerBar(show: boolean): void {
-    if (this.lineTimerBar) this.lineTimerBar.style.display = show ? 'block' : 'none';
+    if (this.lineTimerBar) this.lineTimerBar.classList.toggle('is-hidden', !show);
     if (this.lineTimerFill) this.lineTimerFill.style.width = '100%';
   }
 

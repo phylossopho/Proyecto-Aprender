@@ -271,14 +271,14 @@ export class TextsModal {
     const contentInput = overlay.querySelector('#new-text-content') as HTMLTextAreaElement;
 
     createBtn.addEventListener('click', () => {
-      createBtn.style.display = 'none';
+      createBtn.classList.add('is-hidden');
       newTextForm.classList.remove('hidden');
       titleInput.value = '';
       contentInput.value = '';
     });
 
     cancelBtn.addEventListener('click', () => {
-      createBtn.style.display = 'inline-flex';
+      createBtn.classList.remove('is-hidden');
       newTextForm.classList.add('hidden');
     });
 
@@ -308,8 +308,10 @@ export class TextsModal {
 
     titleInput.value = '';
     contentInput.value = '';
-    (this.element.querySelector('#btn-create-new') as HTMLElement)!.style.display = 'inline-flex';
-    (this.element.querySelector('#new-text-form') as HTMLElement).classList.add('hidden');
+    const btnCreate = this.element.querySelector('#btn-create-new') as HTMLElement;
+    if (btnCreate) btnCreate.classList.remove('is-hidden');
+    const newTextForm = this.element.querySelector('#new-text-form') as HTMLElement;
+    if (newTextForm) newTextForm.classList.add('hidden');
   }
 
   private getSavedTexts(): Array<{title: string; content: string; category: string; date: string}> {

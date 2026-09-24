@@ -32,33 +32,33 @@ export class IdeasModal {
 
   private createElement(): HTMLElement {
     const overlay = createElement('div', 'modal-overlay hidden', `
-      <div class="modal" style="width:640px;max-width:95vw;max-height:85vh;overflow-y:auto;">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+      <div class="modal ideas-modal">
+        <div class="ideas-header">
           <h2 style="margin:0;">📌 Mi Caja de Ideas</h2>
           <button class="btn btn-secondary" id="btn-close-ideas" style="padding:6px 14px;font-size:0.85rem;">Cerrar</button>
         </div>
-        <p style="color:var(--text-secondary);font-size:0.9rem;margin:-8px 0 16px;">
+        <p class="ideas-description">
           Cada tarjeta guarda algo que aprendiste. Puedes unirla con otras que se parezcan, como hilos entre notas.
         </p>
 
         <div class="modal-section" id="ideas-form">
           <label>Nueva tarjeta:</label>
-          <input type="text" id="idea-titulo" placeholder="¿De qué trata tu idea?" style="width:100%;padding:8px 12px;background:var(--bg-tertiary);border:1px solid var(--border-color);border-radius:6px;color:var(--text-primary);font-size:0.9rem;outline:none;margin-bottom:8px;">
-          <textarea id="idea-texto" placeholder="Cuéntala con tus palabras..." style="width:100%;height:70px;background:var(--bg-primary);border:1px solid var(--border-color);border-radius:8px;color:var(--text-primary);padding:10px;font-size:0.9rem;font-family:inherit;resize:vertical;outline:none;margin-bottom:8px;"></textarea>
-          <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;">
-            <input type="file" id="idea-foto" accept="image/*" style="color:var(--text-secondary);font-size:0.85rem;">
-            <img id="idea-foto-preview" style="width:44px;height:44px;object-fit:cover;border-radius:6px;border:1px solid var(--border-color);display:none;">
+          <input type="text" id="idea-titulo" placeholder="¿De qué trata tu idea?" class="ideas-form-input">
+          <textarea id="idea-texto" placeholder="Cuéntala con tus palabras..." class="ideas-form-textarea"></textarea>
+          <div class="ideas-photo-row">
+            <input type="file" id="idea-foto" accept="image/*">
+            <img id="idea-foto-preview" class="ideas-photo-preview is-hidden" alt="Vista previa">
           </div>
-          <div id="idea-enlaces" style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px;"></div>
-          <div style="display:flex;justify-content:flex-end;">
+          <div id="idea-enlaces" class="ideas-enlaces"></div>
+          <div class="ideas-actions">
             <button class="btn btn-primary" id="btn-guardar-idea" style="padding:8px 18px;">Guardar tarjeta</button>
           </div>
         </div>
 
         <div class="modal-section">
           <label>Tus tarjetas:</label>
-          <div id="ideas-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:14px;margin-top:8px;"></div>
-          <p id="ideas-vacio" style="color:var(--text-muted);text-align:center;font-size:0.9rem;padding:20px 0;">Aún no tienes tarjetas. ¡Crea la primera arriba!</p>
+          <div id="ideas-grid" class="ideas-grid"></div>
+          <p id="ideas-vacio" class="ideas-empty">Aún no tienes tarjetas. ¡Crea la primera arriba!</p>
         </div>
       </div>
     `);
@@ -78,7 +78,7 @@ export class IdeasModal {
       reader.onload = () => {
         this.fotoPendiente = reader.result as string;
         fotoPreview.src = this.fotoPendiente;
-        fotoPreview.style.display = 'block';
+        fotoPreview.classList.remove('is-hidden');
       };
       reader.readAsDataURL(f);
     });
@@ -112,33 +112,35 @@ export class IdeasModal {
       box.innerHTML = `<span style="font-size:0.8rem;color:var(--text-muted);">Aún no tienes otras tarjetas para conectar</span>`;
       return;
     }
-    box.innerHTML = this.notas.map(n => `
-      <label style="display:flex;align-items:center;gap:5px;font-size:0.8rem;background:var(--bg-tertiary);border:1px solid var(--border-color);border-radius:14px;padding:4px 10px;color:var(--text-primary);cursor:pointer;">
-        <input type="checkbox" value="${n.id}" style="width:auto;">${escapeHtml(n.titulo)}
-      </label>
-    `).join('');
+    box.innerHTML = this.notas.length
+      ? this.notas.map(n => `
+          <label class="ideas-enlace-label">
+            <input type="checkbox" value="${n.id}">${escapeHtml(n.titulo)}
+          </label>
+        `).join('')
+      : '<span style="font-size:0.8rem;color:var(--text-muted);">Aún no tienes otras tarjetas para conectar</span>';
   }
 
   private renderGrid(): void {
     const grid = this.element.querySelector('#ideas-grid')!;
     const vacio = this.element.querySelector('#ideas-vacio') as HTMLElement;
-    vacio.style.display = this.notas.length ? 'none' : 'block';
+    vacio.classList.toggle('is-hidden', this.notas.length > 0);
     grid.innerHTML = this.notas.map((n, i) => {
       const pin = PINES[i % PINES.length];
       const chips = n.enlaces
         .map(id => this.notas.find(x => x.id === id))
         .filter((t): t is IdeaNota => !!t)
-        .map(t => `<span data-go="${t.id}" style="font-size:0.7rem;font-weight:700;background:var(--bg-primary);border:1px solid var(--border-color);border-radius:10px;padding:3px 8px;cursor:pointer;display:inline-block;margin:2px 4px 0 0;">🧵 ${escapeHtml(t.titulo)}</span>`)
+        .map(t => `<span class="idea-card-chip" data-go="${t.id}">🧵 ${escapeHtml(t.titulo)}</span>`)
         .join('');
       return `
-        <div id="nota-${n.id}" style="background:var(--bg-card);border:1px solid var(--border-color);border-radius:8px;padding:12px;position:relative;">
-          <div style="width:10px;height:10px;border-radius:50%;background:${pin};position:absolute;top:-5px;left:14px;box-shadow:0 2px 3px rgba(0,0,0,.4);"></div>
-          ${n.foto ? `<img src="${n.foto}" style="width:100%;height:80px;object-fit:cover;border-radius:5px;margin-bottom:6px;">` : ''}
-          <div style="font-weight:700;color:var(--text-primary);font-size:0.9rem;margin-bottom:4px;">${escapeHtml(n.titulo)}</div>
-          ${n.texto ? `<div style="color:var(--text-secondary);font-size:0.8rem;line-height:1.4;margin-bottom:6px;">${escapeHtml(n.texto)}</div>` : ''}
-          ${chips ? `<div style="margin-bottom:6px;">${chips}</div>` : ''}
-          <div style="display:flex;justify-content:flex-end;">
-            <button data-del="${n.id}" style="background:none;border:none;color:var(--text-muted);font-size:0.75rem;cursor:pointer;">Quitar</button>
+        <div id="nota-${n.id}" class="idea-card">
+          <div class="idea-card-pin" style="background:${pin};"></div>
+          ${n.foto ? `<img src="${n.foto}" alt="">` : ''}
+          <div class="idea-card-title">${escapeHtml(n.titulo)}</div>
+          ${n.texto ? `<div class="idea-card-text">${escapeHtml(n.texto)}</div>` : ''}
+          ${chips ? `<div class="idea-card-chips">${chips}</div>` : ''}
+          <div class="idea-card-actions">
+            <button data-del="${n.id}" class="idea-card-delete">Quitar</button>
           </div>
         </div>
       `;
@@ -173,7 +175,7 @@ export class IdeasModal {
     const fotoInput = overlay.querySelector('#idea-foto') as HTMLInputElement;
     const fotoPreview = overlay.querySelector('#idea-foto-preview') as HTMLImageElement;
     fotoInput.value = '';
-    fotoPreview.style.display = 'none';
+    fotoPreview.classList.add('is-hidden');
 
     this.renderGrid();
     this.renderEnlaces();

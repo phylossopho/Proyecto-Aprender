@@ -154,7 +154,7 @@ body {
   -webkit-overflow-scrolling: touch;
 }
 
-.controls.controls-visible {
+.controls.is-visible {
   display: inline-grid;
 }
 
