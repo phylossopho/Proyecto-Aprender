@@ -389,7 +389,7 @@ export class ThemeEditorModal {
     const s = new Option().style;
     s.color = value;
     if (!s.color) return '#000000';
-    const match = s.color.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
+    const match = s.color.match(/^rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*[\d.]+)?\)$/);
     if (match) {
       const toHex = (n: number) => n.toString(16).padStart(2, '0');
       return `#${toHex(Number(match[1]))}${toHex(Number(match[2]))}${toHex(Number(match[3]))}`;
