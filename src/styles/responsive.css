@@ -18,8 +18,8 @@
   .word-display { min-height: 100px; }
 
   .controls {
-    padding: var(--space-sm);
-    gap: var(--space-xs);
+    padding: var(--space-xs);
+    gap: 4px;
     overflow-x: auto;
     width: auto;
     max-width: 100vw;
@@ -28,9 +28,21 @@
   .controls .slider-group {
     display: inline-flex;
     align-items: center;
-    gap: var(--space-xs);
+    gap: 4px;
     flex-wrap: nowrap;
     flex-direction: row;
+    padding: var(--space-xs) var(--space-xs);
+  }
+
+  .controls .slider-group input[type="range"] {
+    width: 72px;
+  }
+
+  .controls .btn {
+    padding: 4px 8px;
+    min-width: 28px;
+    min-height: 28px;
+    font-size: 0.8rem;
   }
 
   .modal { max-width: 90vw; padding: var(--space-md); }
