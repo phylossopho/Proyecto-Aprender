@@ -144,6 +144,16 @@ body {
   border-radius: var(--radius-lg);
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
   overflow-x: auto;
+  width: auto;
+  max-width: 100vw;
+}
+
+.controls .slider-group {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  flex-wrap: nowrap;
+  flex-direction: row;
 }
 
 .control-separator {
