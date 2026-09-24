@@ -40,24 +40,19 @@ export function splitIntoChunks(text: string, targetSize: number, maxCharsPerChu
 
     if (maxCharsPerChunk != null) {
       let chars = 0;
+      let candidateEnd = start;
       for (let i = start; i < allWords.length; i++) {
         const word = allWords[i];
         const weight = word.length > 7 ? 2 : 1;
-        const projectedChars = chars + word.length + (i > start ? 1 : 0);
-        if (i > start && (chars >= maxCharsPerChunk || (weight > 1 && projectedChars > maxCharsPerChunk * 1.4))) {
-          end = i;
+        const projected = chars + word.length + (i > start ? 1 : 0);
+        if (i > start && (chars >= maxCharsPerChunk || projected > maxCharsPerChunk)) {
           break;
         }
-        chars = projectedChars;
-        if (chars >= maxCharsPerChunk && i > start) {
-          end = i + 1;
-          break;
-        }
-        if (i === allWords.length - 1) end = allWords.length;
+        chars = projected;
+        candidateEnd = i + 1;
       }
+      if (candidateEnd > start) end = candidateEnd;
     }
-
-    if (!maxCharsPerChunk && end > start) end = Math.min(start + targetSize, allWords.length);
 
     for (let i = end; i > start; i--) {
       const word = allWords[i - 1];

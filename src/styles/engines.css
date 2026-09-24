@@ -34,6 +34,9 @@
 .word-display.chunk-mode .chunk-box {
   border-color: var(--pointer-color);
   background: rgba(124, 138, 255, 0.05);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .word-display.chunk-mode .focal {

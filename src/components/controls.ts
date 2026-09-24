@@ -278,7 +278,7 @@ export class ControlsManager {
   }
 
   private adjustDisplayScale(delta: number): void {
-    this.displayScale = Math.max(0.6, Math.min(1.6, this.displayScale + delta));
+    this.displayScale = Math.max(0.7, Math.min(1.4, this.displayScale + delta));
     const display = document.getElementById('word-display');
     if (display) display.style.fontSize = `${this.displayScale}em`;
   }
