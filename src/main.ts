@@ -38,7 +38,7 @@ class App {
   private ideasModal!: IdeasModal;
   private controls!: ControlsManager;
   private initialized = false;
-  private pantallaAnterior: 'categoria' | 'config' = 'categoria';
+  private pantallaAnterior: 'categoria' | 'mode' | 'config' = 'categoria';
 
   async init(): Promise<void> {
     if (this.initialized) return;
@@ -148,6 +148,7 @@ class App {
   private handleCategoriaSelect(categoriaId: CategoriaId): void {
     if (categoriaId === 'lectura-rapida') {
       this.categoriaModal.hide();
+      this.pantallaAnterior = 'categoria';
       this.showModeModal();
     } else if (categoriaId === 'textos') {
       this.categoriaModal.hide();
@@ -191,7 +192,13 @@ class App {
   private goToCategoria(): void {
     this.controls.resetSession();
     this.ocultarDistracciones(false);
-    this.showCategoriaModal();
+    if (this.pantallaAnterior === 'config') {
+      this.configModal.show();
+    } else if (this.pantallaAnterior === 'mode') {
+      this.showModeModal();
+    } else {
+      this.showCategoriaModal();
+    }
   }
 
   private ocultarDistracciones(hide: boolean): void {
@@ -209,8 +216,7 @@ class App {
 
   private applyInitialTheme(): void {
     const theme = this.state.getState().theme;
-    const fontSize = this.state.getState().fontSize;
-    document.body.className = `theme-${theme} font-${fontSize}`;
+    document.body.className = `theme-${theme}`;
   }
 
   private showModeModal(): void {

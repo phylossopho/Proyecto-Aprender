@@ -79,8 +79,6 @@
 }
 
 @media (max-width: 480px) {
-  :root { --display-scale: 0.8; }
-
   .top-bar h1 { font-size: 1rem; }
 
   .main-area { padding: var(--space-sm); }

@@ -1,4 +1,4 @@
-import type { Preferences, Theme, FontSize, Mode, ChunkSize, TrainingStats } from './types.js';
+import type { Preferences, Theme, Mode, ChunkSize, TrainingStats } from './types.js';
 import { DEFAULT_PREFERENCES, STORAGE_KEYS } from './types.js';
 
 export class StorageManager {
@@ -30,7 +30,6 @@ export class StorageManager {
       const wpm = parseInt(localStorage.getItem(STORAGE_KEYS.WPM) || '', 10) || DEFAULT_PREFERENCES.wpm;
       const chunkSize = (parseInt(localStorage.getItem(STORAGE_KEYS.CHUNK_SIZE) || '', 10) as ChunkSize) || DEFAULT_PREFERENCES.chunkSize;
       const mode = (localStorage.getItem(STORAGE_KEYS.MODE) as Mode) || DEFAULT_PREFERENCES.mode;
-      const fontSize = (localStorage.getItem(STORAGE_KEYS.FONT_SIZE) as FontSize) || DEFAULT_PREFERENCES.fontSize;
 
       let stats = DEFAULT_PREFERENCES.stats;
       const statsStr = localStorage.getItem(STORAGE_KEYS.STATS);
@@ -42,7 +41,7 @@ export class StorageManager {
         }
       }
 
-      return { theme, wpm, chunkSize, mode, fontSize, stats };
+      return { theme, wpm, chunkSize, mode, stats };
     } catch {
       return DEFAULT_PREFERENCES;
     }
@@ -56,7 +55,6 @@ export class StorageManager {
       if (prefs.wpm !== undefined) localStorage.setItem(STORAGE_KEYS.WPM, String(prefs.wpm));
       if (prefs.chunkSize) localStorage.setItem(STORAGE_KEYS.CHUNK_SIZE, String(prefs.chunkSize));
       if (prefs.mode) localStorage.setItem(STORAGE_KEYS.MODE, prefs.mode);
-      if (prefs.fontSize) localStorage.setItem(STORAGE_KEYS.FONT_SIZE, prefs.fontSize);
       if (prefs.stats) localStorage.setItem(STORAGE_KEYS.STATS, JSON.stringify(prefs.stats));
     } catch {
       // Silently fail
@@ -77,10 +75,6 @@ export class StorageManager {
 
   saveMode(mode: Mode): void {
     this.savePreferences({ mode });
-  }
-
-  saveFontSize(fontSize: FontSize): void {
-    this.savePreferences({ fontSize });
   }
 
   saveStats(stats: TrainingStats): void {

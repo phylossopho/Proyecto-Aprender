@@ -1,6 +1,6 @@
 import { modalManager, createElement } from './ui-utils.js';
 import { StateManager } from '../core/state.js';
-import type { Theme, FontSize } from '../core/types.js';
+import type { Theme } from '../core/types.js';
 import { ICONO_TEMA_OSCURO, ICONO_TEMA_NEON, ICONO_TEMA_CLARO } from '../utils/iconos.js';
 
 function appendToBody(element: HTMLElement): void {
@@ -35,10 +35,6 @@ export class SettingsModal {
             <span class="setting-label">Tema:</span>
             <div class="theme-options" id="theme-options"></div>
           </div>
-          <div class="setting-row" style="border-bottom:none;">
-            <span class="setting-label">Tamaño de texto:</span>
-            <div class="font-options" id="font-options"></div>
-          </div>
           <div class="setting-row" style="border-bottom:none;margin-top:16px;padding-top:16px;border-top:1px solid var(--border-color);">
             <div class="stats-summary" id="stats-summary"></div>
           </div>
@@ -50,7 +46,6 @@ export class SettingsModal {
     closeBtn.addEventListener('click', () => this.hide());
 
     this.renderThemeOptions(overlay);
-    this.renderFontOptions(overlay);
     this.renderStats(overlay);
 
     return overlay;
@@ -83,33 +78,6 @@ export class SettingsModal {
     });
   }
 
-  private renderFontOptions(container: HTMLElement): void {
-    const fontContainer = container.querySelector('#font-options')!;
-    const sizes: { id: FontSize; label: string }[] = [
-      { id: 'small', label: 'Pequeño' },
-      { id: 'medium', label: 'Mediano' },
-      { id: 'large', label: 'Grande' },
-    ];
-
-    sizes.forEach(s => {
-      const btn = createElement('button', 'font-opt', s.label);
-      btn.dataset.size = s.id;
-      btn.addEventListener('click', () => {
-        this.state.setFontSize(s.id);
-        this.updateFontButtons(container, s.id);
-      });
-      fontContainer.appendChild(btn);
-    });
-
-    this.updateFontButtons(container, this.state.getState().fontSize);
-  }
-
-  private updateFontButtons(container: HTMLElement, active: FontSize): void {
-    container.querySelectorAll('.font-opt').forEach(btn => {
-      (btn as HTMLElement).classList.toggle('active', (btn as HTMLElement).dataset.size === active);
-    });
-  }
-
   private renderStats(container: HTMLElement): void {
     const statsContainer = container.querySelector('#stats-summary')!;
     const stats = this.state.getState().trainingStats;
@@ -132,7 +100,6 @@ export class SettingsModal {
 
   show(): void {
     this.updateThemeButtons(this.element, this.state.getState().theme);
-    this.updateFontButtons(this.element, this.state.getState().fontSize);
     this.renderStats(this.element);
     modalManager.show('settings');
   }

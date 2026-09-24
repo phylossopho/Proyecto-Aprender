@@ -1,6 +1,6 @@
 import { modalManager, createElement, createButton, formatTime } from './ui-utils.js';
 import { StateManager } from '../core/state.js';
-import type { Mode, Theme, FontSize, ChunkSize } from '../core/types.js';
+import type { Mode, Theme, ChunkSize } from '../core/types.js';
 import { SAMPLE_TEXTS, HISTORY_TEXTS } from '../utils/sample-texts.js';
 import { ICONO_CONFIGURACION, ICONO_ATRAS, ICONO_MODO_PALABRA, ICONO_MODO_GRUPO, ICONO_MODO_FRASE, ICONO_MODO_GALACTICO, ICONO_MODO_BIONIC, ICONO_MODO_COLUMNA, ICONO_MODO_PACER, ICONO_MODO_SIN_REGRESION, ICONO_MODO_SKIM } from '../utils/iconos.js';
 

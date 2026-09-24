@@ -340,13 +340,13 @@
 .theme-light .mode-card[data-mode="texts"] .mode-when { color: #1a7a3a; }
 .theme-light .mode-card[data-mode="texts"] .mode-icon { color: #1a7a3a; }
 .theme-light .settings-modal .setting-label { color: #222; }
-.theme-light .word-display .focal { font-size: calc(4rem * var(--display-scale, 1)); }
-.theme-light .word-display .pointer { font-size: calc(4rem * var(--display-scale, 1)); }
+.theme-light .word-display .focal { font-size: 4rem; }
+.theme-light .word-display .pointer { font-size: 4rem; }
 .theme-light .word-display.chunk-mode .chunk-word {
-  font-size: calc(3rem * var(--display-scale, 1));
+  font-size: 3rem;
   color: var(--text-primary);
 }
-.theme-light .word-display .context-extra { font-size: calc(2rem * var(--display-scale, 1)); }
+.theme-light .word-display .context-extra { font-size: 2rem; }
 .theme-light .saved-text-item { background: #e8e8e8; border-color: #ccc; }
 .theme-light .saved-text-item:hover { background: #d8d8d8; border-color: #1a7a3a; }
 .theme-light .saved-text-item.deleted { background: #f8d8d8; border-color: #a83a3a; }

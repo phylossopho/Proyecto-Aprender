@@ -2,7 +2,7 @@
 
 /* Word mode (RSVP) */
 .word-display .focal {
-  font-size: calc(5rem * var(--display-scale, 1));
+  font-size: 5rem;
   font-weight: 800;
   color: var(--text-primary);
   border-bottom: 3px solid var(--hl-color);
@@ -10,7 +10,7 @@
 }
 
 .word-display .pointer {
-  font-size: calc(5rem * var(--display-scale, 1));
+  font-size: 5rem;
   font-weight: 300;
   color: var(--pointer-color);
   margin-right: 0.1em;
@@ -19,13 +19,13 @@
 }
 
 .word-display .context {
-  font-size: calc(3rem * var(--display-scale, 1));
+  font-size: 3rem;
   font-weight: 400;
   color: var(--text-secondary);
 }
 
 .word-display .context-extra {
-  font-size: calc(2.4rem * var(--display-scale, 1));
+  font-size: 2.4rem;
   font-weight: 400;
   color: var(--text-secondary);
 }
@@ -37,23 +37,23 @@
 }
 
 .word-display.chunk-mode .focal {
-  font-size: calc(4.5rem * var(--display-scale, 1));
+  font-size: 4.5rem;
 }
 
 .word-display.chunk-mode .chunk-word {
-  font-size: calc(3rem * var(--display-scale, 1));
+  font-size: 3rem;
   font-weight: 400;
   color: var(--text-primary);
 }
 
 .word-display.chunk-mode .context-extra {
-  font-size: calc(2.4rem * var(--display-scale, 1));
+  font-size: 2.4rem;
   color: var(--text-secondary);
 }
 
 /* Line mode */
 .line-display {
-  font-size: calc(2.8rem * var(--display-scale, 1));
+  font-size: 2.8rem;
   font-weight: 400;
   color: var(--text-primary);
   max-width: 90vw;
@@ -89,7 +89,7 @@ body.galactico-bg {
 }
 
 .galactico-content {
-  font-size: calc(2.5rem * var(--display-scale, 1));
+  font-size: 2.5rem;
   text-align: center;
   line-height: 2.5;
   letter-spacing: 3px;
@@ -150,7 +150,7 @@ body.galactico-bg {
 /* ===== Modos nuevos (Proyecto Aprender a Aprender): interfaz básica ===== */
 
 .bionic-display, .columna-display, .pacer-display, .sinregresion-display, .skim-display {
-  font-size: calc(1.6rem * var(--display-scale, 1));
+  font-size: 1.6rem;
   line-height: 1.7;
   color: var(--text-primary);
   text-align: left;

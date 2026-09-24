@@ -1,6 +1,5 @@
 export type Mode = 'word' | 'chunk' | 'line' | 'galactico' | 'texts' | 'bionic' | 'columna' | 'pacer' | 'sinregresion' | 'skim';
 export type Theme = 'dark' | 'neon' | 'light';
-export type FontSize = 'small' | 'medium' | 'large';
 export type ChunkSize = 3 | 5 | 7;
 
 export interface TrainingStats {
@@ -24,7 +23,6 @@ export interface Preferences {
   wpm: number;
   chunkSize: ChunkSize;
   mode: Mode;
-  fontSize: FontSize;
   stats: TrainingStats;
 }
 
@@ -45,7 +43,6 @@ export interface AppState {
   wpm: number;
   chunkSize: ChunkSize;
   theme: Theme;
-  fontSize: FontSize;
   words: string[];
   chunks: TextChunk[];
   sentences: string[];
@@ -86,7 +83,6 @@ export const DEFAULT_PREFERENCES: Preferences = {
   wpm: 250,
   chunkSize: 5,
   mode: 'word',
-  fontSize: 'medium',
   stats: {
     sessions: 0,
     totalWords: 0,
@@ -101,7 +97,6 @@ export const STORAGE_KEYS = {
   WPM: 'reading-wpm',
   CHUNK_SIZE: 'reading-chunkSize',
   MODE: 'reading-mode',
-  FONT_SIZE: 'reading-fontSize',
   STATS: 'reading-stats',
   CUSTOM_THEMES: 'reading-custom-themes',
   SONIDO: 'reading-sonido',
@@ -109,7 +104,6 @@ export const STORAGE_KEYS = {
 
 export const WPM_RANGE = { min: 50, max: 999, step: 10 } as const;
 export const CHUNK_SIZES: ChunkSize[] = [3, 5, 7];
-export const FONT_SIZES: FontSize[] = ['small', 'medium', 'large'];
 export const THEMES: Theme[] = ['dark', 'neon', 'light'];
 export const MODES: Mode[] = ['word', 'chunk', 'line', 'galactico', 'texts'];
 export const CATEGORIA_TEXTO = ['Personal', 'Muestra', 'Historia', 'Ciencia', 'Tecnologia', 'Naturaleza', 'Motivacion', 'Ciudad', 'Otro'] as const;

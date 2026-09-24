@@ -97,11 +97,6 @@
   --cat-juegos-icon: #4ade80;
 }
 
-/* Font size scales */
-.font-small { --display-scale: 0.85; }
-.font-medium { --display-scale: 1; }
-.font-large { --display-scale: 1.25; }
-
 /* Spacing scale */
 :root {
   --space-xs: 4px;

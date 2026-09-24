@@ -1,4 +1,4 @@
-import type { AppState, Mode, Theme, FontSize, ChunkSize, TrainingStats, Preferences, TextChunk, GalacticoPhase } from '../core/types.js';
+import type { AppState, Mode, Theme, ChunkSize, TrainingStats, Preferences, TextChunk, GalacticoPhase } from '../core/types.js';
 import { DEFAULT_PREFERENCES, PAUSE_DURATIONS } from '../core/types.js';
 import { StorageManager } from '../core/storage.js';
 import { splitSentences, splitIntoChunks, countWords, cleanWord } from '../utils/text-processing.js';
@@ -28,7 +28,6 @@ export class StateManager {
       wpm: prefs.wpm,
       chunkSize: prefs.chunkSize,
       theme: prefs.theme,
-      fontSize: prefs.fontSize,
       words: [],
       chunks: [],
       sentences: [],
@@ -127,14 +126,7 @@ export class StateManager {
   setTheme(theme: Theme): void {
     this.update({ theme });
     this.storage.saveTheme(theme);
-    document.body.className = `theme-${theme} font-${this.state.fontSize}`;
-  }
-
-  setFontSize(size: FontSize): void {
-    this.update({ fontSize: size });
-    this.storage.saveFontSize(size);
-    document.body.classList.remove('font-small', 'font-medium', 'font-large');
-    document.body.classList.add(`font-${size}`);
+    document.body.className = `theme-${theme}`;
   }
 
   startSession(): void {

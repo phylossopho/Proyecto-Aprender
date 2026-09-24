@@ -46,6 +46,7 @@ export class ControlsManager {
       <button class="btn btn-secondary" id="btn-pause">⏸️</button>
       <div class="control-separator"></div>
       <button class="btn btn-secondary" id="btn-reset">🔁</button>
+      <div class="control-separator"></div>
       <div class="slider-group">
         <input type="range" id="wpm-slider" min="50" max="999" value="250" step="10">
         <div class="wpm-value" id="wpm-display">250</div>
