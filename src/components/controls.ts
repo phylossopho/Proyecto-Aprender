@@ -21,11 +21,40 @@ export class ControlsManager {
   private elapsedTimeEl: HTMLElement | null = null;
 
   constructor() {
+    this.ensureControlsContainer();
     this.cacheElements();
     this.bindEvents();
     this.subscribeToState();
     this.updateChunkRowVisibility();
     this.updateWPMDisplay();
+  }
+
+  private ensureControlsContainer(): void {
+    let container = document.getElementById('controls-container');
+    if (!container) {
+      container = document.createElement('div');
+      container.id = 'controls-container';
+      container.className = 'controls';
+      container.innerHTML = this.renderControlsHTML();
+      document.body.appendChild(container);
+    }
+  }
+
+  private renderControlsHTML(): string {
+    return `
+      <button class="btn btn-secondary" id="btn-pause">⏸️</button>
+      <div class="control-separator"></div>
+      <button class="btn btn-secondary" id="btn-reset">🔁</button>
+      <div class="slider-group">
+        <input type="range" id="wpm-slider" min="50" max="999" value="250" step="10">
+        <div class="wpm-value" id="wpm-display">250</div>
+        <button class="btn btn-secondary" id="btn-wpm-minus">−</button>
+        <button class="btn btn-secondary" id="btn-wpm-plus">+</button>
+      </div>
+      <div class="control-separator"></div>
+      <button class="btn btn-secondary" id="btn-volver-categoria">↩️</button>
+      <button class="btn btn-secondary" id="btn-home">🏠</button>
+    `;
   }
 
   private cacheElements(): void {

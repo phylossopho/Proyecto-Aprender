@@ -108,21 +108,6 @@ class App {
           <div class="pause-indicator is-hidden" id="pause-indicator">PAUSADO</div>
         </main>
 
-         <div class="controls is-hidden" id="controls-container">
-          <button class="btn btn-secondary" id="btn-pause">⏸️</button>
-          <div class="control-separator"></div>
-          <button class="btn btn-secondary" id="btn-reset">🔁</button>
-          <div class="slider-group">
-            <input type="range" id="wpm-slider" min="50" max="999" value="250" step="10">
-            <div class="wpm-value" id="wpm-display">250</div>
-            <button class="btn btn-secondary" id="btn-wpm-minus">−</button>
-            <button class="btn btn-secondary" id="btn-wpm-plus">+</button>
-          </div>
-          <div class="control-separator"></div>
-          <button class="btn btn-secondary" id="btn-volver-categoria">↩️</button>
-          <button class="btn btn-secondary" id="btn-home">🏠</button>
-        </div>
-
       <div class="modal-overlay hidden" id="mode-modal"></div>
       <div class="modal-overlay hidden" id="config-modal"></div>
       <div class="modal-overlay hidden" id="texts-modal"></div>
@@ -254,9 +239,6 @@ class App {
 
     this.controls.setMode(this.state.getState().mode);
     this.controls.startEngine();
-
-    const controls = document.getElementById('controls-container');
-    if (controls) controls.classList.remove('is-hidden');
 
     const wordDisplay = document.getElementById('word-display');
     if (wordDisplay) {

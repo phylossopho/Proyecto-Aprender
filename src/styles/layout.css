@@ -133,7 +133,7 @@ body {
   bottom: var(--space-sm);
   left: 0;
   right: 0;
-  display: none;
+  display: inline-grid;
   grid-auto-flow: column;
   grid-auto-columns: min-content;
   align-items: center;
@@ -154,8 +154,8 @@ body {
   -webkit-overflow-scrolling: touch;
 }
 
-.controls.is-visible {
-  display: inline-grid;
+.controls.is-hidden {
+  display: none;
 }
 
 .controls::-webkit-scrollbar {
