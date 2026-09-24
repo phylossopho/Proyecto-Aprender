@@ -104,7 +104,6 @@ body.galactico-bg {
 
 .controls {
   z-index: 100;
-  position: relative;
 }
 
 .mode-card[data-mode="galactico"] .mode-icon {
