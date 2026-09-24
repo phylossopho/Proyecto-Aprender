@@ -52,6 +52,12 @@ export class ControlsManager {
         <button class="btn btn-secondary" id="btn-wpm-plus">+</button>
       </div>
       <div class="control-separator"></div>
+      <div class="chunk-options" id="chunk-options">
+        <button class="btn btn-secondary chunk-opt" data-chunk="3">3</button>
+        <button class="btn btn-secondary chunk-opt" data-chunk="5">5</button>
+        <button class="btn btn-secondary chunk-opt" data-chunk="7">7</button>
+      </div>
+      <div class="control-separator"></div>
       <button class="btn btn-secondary" id="btn-volver-categoria">↩️</button>
       <button class="btn btn-secondary" id="btn-home">🏠</button>
     `;
@@ -163,7 +169,7 @@ export class ControlsManager {
   }
 
   private updateChunkRowVisibility(): void {
-    const chunkRow = document.getElementById('chunk-row');
+    const chunkRow = document.getElementById('chunk-options');
     if (chunkRow) {
       chunkRow.classList.toggle('is-hidden', this.state.getState().mode !== 'chunk');
     }

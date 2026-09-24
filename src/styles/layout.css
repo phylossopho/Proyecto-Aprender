@@ -181,6 +181,21 @@ body {
   white-space: nowrap;
 }
 
+.chunk-options {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  flex-wrap: nowrap;
+  flex-direction: row;
+}
+
+.chunk-options .chunk-opt {
+  padding: 4px 8px;
+  min-width: 28px;
+  min-height: 28px;
+  font-size: 0.8rem;
+}
+
 .control-separator {
   width: 1px;
   height: 24px;

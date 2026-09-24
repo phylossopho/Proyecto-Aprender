@@ -1,6 +1,6 @@
-import { modalManager, createElement, createButton } from './ui-utils.js';
+import { modalManager, createElement } from './ui-utils.js';
 import { StateManager } from '../core/state.js';
-import type { Theme, FontSize, ChunkSize } from '../core/types.js';
+import type { Theme, FontSize } from '../core/types.js';
 import { ICONO_TEMA_OSCURO, ICONO_TEMA_NEON, ICONO_TEMA_CLARO } from '../utils/iconos.js';
 
 function appendToBody(element: HTMLElement): void {
@@ -33,17 +33,6 @@ export class SettingsModal {
             <span class="setting-label">Tamaño de texto:</span>
             <div class="font-options" id="font-options"></div>
           </div>
-          <div class="setting-row">
-            <span class="setting-label">Velocidad (WPM):</span>
-            <div style="display:flex;align-items:center;gap:12px;">
-              <input type="range" id="settings-wpm-slider" min="50" max="999" value="250" step="10" style="flex:1;-webkit-appearance:none;height:5px;border-radius:3px;background:var(--slider-track);outline:none;">
-              <span class="setting-value" id="settings-wpm" style="min-width:50px;text-align:right;">250</span>
-            </div>
-          </div>
-          <div class="setting-row">
-            <span class="setting-label">Palabras por grupo:</span>
-            <div class="chunk-options" id="chunk-options"></div>
-          </div>
           <div class="setting-row" style="border-bottom:none;margin-top:16px;padding-top:16px;border-top:1px solid var(--border-color);">
             <div class="stats-summary" id="stats-summary"></div>
           </div>
@@ -56,8 +45,6 @@ export class SettingsModal {
 
     this.renderThemeOptions(overlay);
     this.renderFontOptions(overlay);
-    this.renderChunkOptions(overlay);
-    this.setupWPMSlider(overlay);
     this.renderStats(overlay);
 
     return overlay;
@@ -117,43 +104,6 @@ export class SettingsModal {
     });
   }
 
-  private renderChunkOptions(container: HTMLElement): void {
-    const chunkContainer = container.querySelector('#chunk-options')!;
-    const sizes: ChunkSize[] = [3, 5, 7];
-
-    sizes.forEach(s => {
-      const btn = createElement('button', 'chunk-opt', String(s));
-      (btn as HTMLElement).dataset.chunk = String(s);
-      btn.addEventListener('click', () => {
-        this.state.setChunkSize(s);
-        this.updateChunkButtons(container, s);
-      });
-      chunkContainer.appendChild(btn);
-    });
-
-    this.updateChunkButtons(container, this.state.getState().chunkSize);
-  }
-
-  private updateChunkButtons(container: HTMLElement, active: ChunkSize): void {
-    container.querySelectorAll('.chunk-opt').forEach(btn => {
-      (btn as HTMLElement).classList.toggle('active', (btn as HTMLElement).dataset.chunk === String(active));
-    });
-  }
-
-  private setupWPMSlider(container: HTMLElement): void {
-    const slider = container.querySelector('#settings-wpm-slider') as HTMLInputElement;
-    const display = container.querySelector('#settings-wpm') as HTMLElement;
-
-    slider.value = String(this.state.getState().wpm);
-    display.textContent = String(this.state.getState().wpm);
-
-    slider.addEventListener('input', () => {
-      const wpm = Number(slider.value);
-      display.textContent = String(wpm);
-      this.state.setWPM(wpm);
-    });
-  }
-
   private renderStats(container: HTMLElement): void {
     const statsContainer = container.querySelector('#stats-summary')!;
     const stats = this.state.getState().trainingStats;
@@ -177,8 +127,6 @@ export class SettingsModal {
   show(): void {
     this.updateThemeButtons(this.element, this.state.getState().theme);
     this.updateFontButtons(this.element, this.state.getState().fontSize);
-    this.updateChunkButtons(this.element, this.state.getState().chunkSize);
-    this.setupWPMSlider(this.element);
     this.renderStats(this.element);
     modalManager.show('settings');
   }

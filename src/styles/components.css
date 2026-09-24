@@ -469,8 +469,9 @@
 
 .font-options,
 .theme-options {
-  display: flex;
-  gap: var(--space-sm);
+  display: inline-flex;
+  flex-wrap: nowrap;
+  gap: var(--space-xs);
 }
 
 .font-opt,
