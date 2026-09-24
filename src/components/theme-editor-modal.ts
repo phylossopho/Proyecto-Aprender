@@ -150,6 +150,20 @@ const VARIABLE_GROUPS = [
   { name: 'Botones', vars: ['--btn-primary-bg', '--btn-secondary-bg', '--pause-bg'] },
 ];
 
+const COLOR_RELATIONS: Record<string, string[]> = {
+  '--text-primary': ['--bg-primary', '--bg-secondary', '--bg-card'],
+  '--text-secondary': ['--bg-card', '--bg-secondary'],
+  '--text-muted': ['--bg-card', '--bg-secondary'],
+  '--accent-primary': ['--btn-primary-bg', '--focal-border', '--timer-fill', '--border-focus'],
+  '--accent-hover': ['--btn-primary-bg', '--border-focus'],
+  '--bg-primary': ['--text-primary', '--text-secondary', '--btn-primary-bg'],
+  '--bg-secondary': ['--text-primary', '--text-secondary'],
+  '--bg-card': ['--text-primary', '--text-secondary'],
+  '--btn-primary-bg': ['--btn-primary-text', '--accent-text', '--bg-primary'],
+  '--btn-secondary-bg': ['--btn-secondary-text', '--text-secondary'],
+  '--border-color': ['--bg-primary', '--text-muted'],
+};
+
 export class ThemeEditorModal {
   private element: HTMLElement;
   private state = StateManager.getInstance();
@@ -203,12 +217,6 @@ export class ThemeEditorModal {
           <div class="theme-preview-panel">
             <div class="theme-preview-header">
               <span>Vista Previa en Vivo</span>
-              <select id="preview-mode-select" style="padding:4px 8px;border-radius:4px;border:1px solid var(--border-color);background:var(--input-bg);color:var(--input-text);font-size:0.75rem;">
-                <option value="overview">Resumen general</option>
-                <option value="reading">Modo lectura</option>
-                <option value="modal">Modal configuración</option>
-                <option value="all">Todas las variables</option>
-              </select>
             </div>
             <div id="theme-preview-content" class="theme-preview-content"></div>
           </div>
@@ -244,15 +252,12 @@ export class ThemeEditorModal {
       btn.addEventListener('click', () => this.saveTheme());
     });
 
-    const previewSelect = overlay.querySelector('#preview-mode-select') as HTMLSelectElement;
-    previewSelect.addEventListener('change', () => this.updatePreview());
-
     return overlay;
   }
 
   private renderEditor(): void {
     const container = this.element.querySelector('#theme-editor-content')!;
-    const themeVars = { ...THEME_VARIABLES[this.currentTheme], ...(this.customThemes[this.currentTheme] || {}) };
+    const themeVars = this.getCurrentThemeVars();
 
     let html = '';
     VARIABLE_GROUPS.forEach(group => {
@@ -263,15 +268,11 @@ export class ThemeEditorModal {
       groupVars.forEach(varName => {
         const value = themeVars[varName];
         const label = VARIABLE_LABELS[varName] || varName;
-        const suggestions = this.getColorSuggestions(value);
         html += `
-          <div style="display:flex;align-items:center;gap:12px;margin-bottom:10px;padding:8px;background:var(--bg-tertiary);border-radius:8px;flex-wrap:wrap;">
-            <span style="font-size:0.75rem;color:var(--text-secondary);min-width:160px;">${label}</span>
-            <input type="color" value="${this.normalizeColor(value)}" data-var="${varName}" data-target="color" style="width:40px;height:32px;border:none;border-radius:4px;cursor:pointer;background:none;">
-            <input type="text" value="${value}" data-var="${varName}" data-target="text" style="flex:1;min-width:80px;font-family:monospace;font-size:0.75rem;padding:4px 8px;background:var(--input-bg);border:1px solid var(--border-color);border-radius:4px;color:var(--input-text);">
-            <div class="color-suggestions" data-for="${varName}" style="display:flex;gap:4px;flex-wrap:wrap;">
-              ${suggestions.map(s => `<button class="theme-swatch" data-color="${s}" data-var="${varName}" style="width:22px;height:22px;border-radius:50%;border:1px solid var(--border-color);background:${s};cursor:pointer;" title="${s}"></button>`).join('')}
-            </div>
+          <div class="theme-row">
+            <span class="theme-row-label">${label}</span>
+            <input type="color" class="theme-row-input" value="${this.normalizeColor(value)}" data-var="${varName}">
+            <input type="text" class="theme-row-text" value="${value}" data-var="${varName}">
           </div>
         `;
       });
@@ -280,43 +281,63 @@ export class ThemeEditorModal {
 
     container.innerHTML = html;
 
+    const syncVariable = (varName: string, value: string) => {
+      this.applyVariable(varName, value);
+      this.updateSuggestions(varName, value);
+      this.updatePreview();
+    };
+
     container.querySelectorAll('input[type="color"]').forEach(input => {
       input.addEventListener('input', (e) => {
         const target = e.target as HTMLInputElement;
-        const varName = target.dataset.var!;
-        const value = target.value;
-        this.applyVariable(varName, value);
-        const textInput = container.querySelector(`input[type="text"][data-var="${varName}"]`) as HTMLInputElement;
-        if (textInput) textInput.value = value;
-        this.refreshSwatches(varName, value);
+        syncVariable(target.dataset.var!, target.value);
+        const textInput = container.querySelector(`input[type="text"][data-var="${target.dataset.var}"]`) as HTMLInputElement | null;
+        if (textInput) textInput.value = target.value;
       });
     });
 
     container.querySelectorAll('input[type="text"]').forEach(input => {
       input.addEventListener('change', (e) => {
         const target = e.target as HTMLInputElement;
-        const varName = target.dataset.var!;
-        const value = target.value;
-        if (this.isValidColor(value)) {
-          this.applyVariable(varName, value);
-          const colorInput = container.querySelector(`input[type="color"][data-var="${varName}"]`) as HTMLInputElement;
-          if (colorInput) colorInput.value = this.normalizeColor(value);
-          this.refreshSwatches(varName, value);
+        if (this.isValidColor(target.value)) {
+          syncVariable(target.dataset.var!, target.value);
+          const colorInput = container.querySelector(`input[type="color"][data-var="${target.dataset.var}"]`) as HTMLInputElement | null;
+          if (colorInput) colorInput.value = this.normalizeColor(target.value);
         }
       });
     });
+  }
 
-    container.querySelectorAll('.theme-swatch').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const varName = (btn as HTMLElement).dataset.var!;
-        const value = (btn as HTMLElement).dataset.color!;
-        this.applyVariable(varName, value);
-        const colorInput = container.querySelector(`input[type="color"][data-var="${varName}"]`) as HTMLInputElement;
-        const textInput = container.querySelector(`input[type="text"][data-var="${varName}"]`) as HTMLInputElement;
-        if (colorInput) colorInput.value = this.normalizeColor(value);
-        if (textInput) textInput.value = value;
-        this.refreshSwatches(varName, value);
+  private updateSuggestions(sourceVar: string, sourceValue: string): void {
+    const relations = COLOR_RELATIONS[sourceVar] || [];
+    if (!relations.length) return;
+    const suggestions = this.getColorSuggestions(sourceValue);
+    const themeVars = this.getCurrentThemeVars();
+
+    relations.forEach(targetVar => {
+      const container = this.element.querySelector(`.color-suggestions[data-for="${targetVar}"]`);
+      if (!container) return;
+      const currentValue = themeVars[targetVar] || '#000000';
+      const closest = this.findClosestColor(currentValue, suggestions);
+      container.innerHTML = suggestions.map(s => `<button class="theme-swatch" data-color="${s}" data-var="${targetVar}" style="background:${s};" title="${s}"></button>`).join('');
+      container.querySelectorAll('.theme-swatch').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const v = (btn as HTMLElement).dataset.var!;
+          const c = (btn as HTMLElement).dataset.color!;
+          this.applyVariable(v, c);
+          const colorInput = (this.element.querySelector(`input[type="color"][data-var="${v}"]`) as HTMLInputElement | null);
+          const textInput = (this.element.querySelector(`input[type="text"][data-var="${v}"]`) as HTMLInputElement | null);
+          if (colorInput) colorInput.value = this.normalizeColor(c);
+          if (textInput) textInput.value = c;
+          this.updatePreview();
+        });
       });
+      if (closest) {
+        setTimeout(() => {
+          const first = container.querySelector('.theme-swatch');
+          if (first) (first as HTMLElement).click();
+        }, 0);
+      }
     });
   }
 
@@ -397,23 +418,28 @@ export class ThemeEditorModal {
     return Array.from(suggestions).slice(0, 8);
   }
 
-  private refreshSwatches(varName: string, value: string): void {
-    const container = this.element.querySelector(`.color-suggestions[data-for="${varName}"]`);
-    if (!container) return;
-    const suggestions = this.getColorSuggestions(value);
-    container.innerHTML = suggestions.map(s => `<button class="theme-swatch" data-color="${s}" data-var="${varName}" style="width:22px;height:22px;border-radius:50%;border:1px solid var(--border-color);background:${s};cursor:pointer;" title="${s}"></button>`).join('');
-    container.querySelectorAll('.theme-swatch').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const v = (btn as HTMLElement).dataset.var!;
-        const c = (btn as HTMLElement).dataset.color!;
-        this.applyVariable(v, c);
-        const colorInput = (this.element.querySelector(`input[type="color"][data-var="${v}"]`) as HTMLInputElement | null);
-        const textInput = (this.element.querySelector(`input[type="text"][data-var="${v}"]`) as HTMLInputElement | null);
-        if (colorInput) colorInput.value = this.normalizeColor(c);
-        if (textInput) textInput.value = c;
-        this.refreshSwatches(v, c);
-      });
+  private getCurrentThemeVars(): Record<string, string> {
+    return { ...THEME_VARIABLES[this.currentTheme], ...(this.customThemes[this.currentTheme] || {}) };
+  }
+
+  private findClosestColor(target: string, suggestions: string[]): string | null {
+    const targetHsl = this.hexToHsl(this.normalizeColor(target));
+    if (!targetHsl) return suggestions[0] || null;
+    let best = suggestions[0];
+    let bestDist = Infinity;
+    suggestions.forEach(s => {
+      const hsl = this.hexToHsl(s);
+      if (!hsl) return;
+      const dh = Math.abs(hsl.h - targetHsl.h);
+      const ds = Math.abs(hsl.s - targetHsl.s);
+      const dl = Math.abs(hsl.l - targetHsl.l);
+      const dist = dh + ds * 0.5 + dl * 0.25;
+      if (dist < bestDist) {
+        bestDist = dist;
+        best = s;
+      }
     });
+    return best;
   }
 
   private applyVariable(varName: string, value: string): void {
@@ -425,60 +451,39 @@ export class ThemeEditorModal {
 
   private updatePreview(): void {
     const container = this.element.querySelector('#theme-preview-content')!;
-    const mode = (this.element.querySelector('#preview-mode-select') as HTMLSelectElement).value;
-
-    let html = '';
-
-    if (mode === 'overview' || mode === 'all') {
-      html += this.createPreviewCard('Tarjeta de modo', `
-        <div style="background:var(--bg-card);border:1px solid var(--border-color);border-radius:10px;padding:16px;text-align:center;min-width:200px;">
-          <div style="font-size:2rem;margin-bottom:8px;">|</div>
-          <div style="font-weight:600;color:var(--text-primary);margin-bottom:4px;">Palabra por palabra</div>
-          <div style="font-size:0.7rem;color:var(--text-secondary);">Velocidad pura</div>
-        </div>
-      `);
-    }
-
-    if (mode === 'reading' || mode === 'all') {
-      html += this.createPreviewCard('Display de lectura', `
-        <div class="word-display" style="max-width:400px;">
-          <span class="context-extra">Contexto </span>
-          <span class="pointer">|</span><span class="focal">Palabra</span>
-          <span class="context-extra"> siguiente</span>
-        </div>
-      `);
-    }
-
-    if (mode === 'modal' || mode === 'all') {
-      html += this.createPreviewCard('Modal', `
-        <div style="background:var(--modal-bg);border:1px solid var(--modal-border);border-radius:16px;padding:24px;min-width:300px;max-width:400px;">
-          <h3 style="color:var(--accent-primary);margin:0 0 16px;">Configuración</h3>
-          <div style="display:flex;gap:8px;margin-bottom:12px;">
-            <button class="btn btn-primary" style="padding:8px 16px;">Primario</button>
-            <button class="btn btn-secondary" style="padding:8px 16px;">Secundario</button>
+    container.innerHTML = `
+      <div class="theme-preview-card">
+        <div class="theme-preview-card-title">Vista previa unificada</div>
+        <div style="display:flex;gap:12px;flex-wrap:wrap;justify-content:center;">
+          <div style="background:var(--bg-card);border:1px solid var(--border-color);border-radius:10px;padding:12px;text-align:center;min-width:120px;">
+            <div style="font-size:1.5rem;margin-bottom:4px;">|</div>
+            <div style="font-weight:600;color:var(--text-primary);font-size:0.8rem;">Palabra</div>
+            <div style="font-size:0.7rem;color:var(--text-secondary);">Modo palabra</div>
           </div>
+          <div style="background:var(--bg-card);border:1px solid var(--border-color);border-radius:10px;padding:12px;text-align:center;min-width:120px;">
+            <div style="font-size:1.2rem;color:var(--accent-primary);margin-bottom:4px;">···</div>
+            <div style="font-weight:600;color:var(--text-primary);font-size:0.8rem;">Grupo</div>
+            <div style="font-size:0.7rem;color:var(--text-secondary);">Modo chunk</div>
+          </div>
+          <div style="background:var(--bg-card);border:1px solid var(--border-color);border-radius:10px;padding:12px;text-align:center;min-width:120px;">
+            <div style="font-size:1.2rem;color:var(--hl-color);margin-bottom:4px;">“...”</div>
+            <div style="font-weight:600;color:var(--text-primary);font-size:0.8rem;">Frase</div>
+            <div style="font-size:0.7rem;color:var(--text-secondary);">Modo línea</div>
+          </div>
+          <div style="background:var(--bg-card);border:1px solid var(--border-color);border-radius:10px;padding:12px;text-align:center;min-width:120px;">
+            <div style="font-size:1.2rem;color:var(--timer-fill);margin-bottom:4px;">⇡</div>
+            <div style="font-weight:600;color:var(--text-primary);font-size:0.8rem;">Galáctico</div>
+            <div style="font-size:0.7rem;color:var(--text-secondary);">Scroll</div>
+          </div>
+        </div>
+        <div style="margin-top:12px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap;">
+          <button class="btn btn-primary" style="padding:8px 16px;">Primario</button>
+          <button class="btn btn-secondary" style="padding:8px 16px;">Secundario</button>
+        </div>
+        <div style="margin-top:12px;">
           <label style="display:block;font-size:0.8rem;color:var(--text-secondary);margin-bottom:4px;">Velocidad</label>
           <input type="range" min="50" max="999" value="250" step="10" style="width:100%;-webkit-appearance:none;height:5px;border-radius:3px;background:var(--slider-track);">
         </div>
-      `);
-    }
-
-    if (mode === 'all') {
-      html += this.createPreviewCard('Variables CSS', `
-        <div style="font-family:monospace;font-size:0.7rem;color:var(--text-secondary);max-width:500px;text-align:left;">
-          ${Object.entries(THEME_VARIABLES[this.currentTheme]).map(([k, v]) => `${k}: ${v}`).join('<br>')}
-        </div>
-      `);
-    }
-
-    container.innerHTML = html;
-  }
-
-  private createPreviewCard(title: string, content: string): string {
-    return `
-      <div style="background:var(--bg-secondary);border:1px solid var(--border-color);border-radius:12px;padding:16px;min-width:300px;max-width:500px;width:100%;">
-        <div style="font-weight:600;color:var(--accent-primary);margin-bottom:12px;font-size:0.85rem;">${title}</div>
-        ${content}
       </div>
     `;
   }
