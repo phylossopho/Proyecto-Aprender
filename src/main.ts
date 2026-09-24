@@ -141,6 +141,8 @@ class App {
 
     const settingsBtn = document.getElementById('btn-settings');
     settingsBtn?.addEventListener('click', () => settingsModal.show());
+
+    settingsModal.setOnClose(() => this.goToHome());
   }
 
   private handleCategoriaSelect(categoriaId: CategoriaId): void {
@@ -182,20 +184,14 @@ class App {
    }
 
   private goToHome(): void {
-    this.controls.resetSession();
     this.pantallaAnterior = 'categoria';
-    this.ocultarDistracciones(false);
-    this.showCategoriaModal();
+    this.goToCategoria();
   }
 
   private goToCategoria(): void {
     this.controls.resetSession();
     this.ocultarDistracciones(false);
-    if (this.pantallaAnterior === 'config') {
-      this.configModal.show();
-    } else {
-      this.showCategoriaModal();
-    }
+    this.showCategoriaModal();
   }
 
   private ocultarDistracciones(hide: boolean): void {

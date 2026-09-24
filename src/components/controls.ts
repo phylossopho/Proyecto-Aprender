@@ -25,6 +25,7 @@ export class ControlsManager {
     this.cacheElements();
     this.bindEvents();
     this.subscribeToState();
+    this.onStateChange();
     this.updateChunkRowVisibility();
     this.updateWPMDisplay();
   }
@@ -34,7 +35,7 @@ export class ControlsManager {
     if (!container) {
       container = document.createElement('div');
       container.id = 'controls-container';
-      container.className = 'controls';
+      container.className = 'controls is-hidden';
       container.innerHTML = this.renderControlsHTML();
       document.body.appendChild(container);
     }

@@ -10,11 +10,17 @@ function appendToBody(element: HTMLElement): void {
 export class SettingsModal {
   private element: HTMLElement;
   private state = StateManager.getInstance();
+  private onClose?: () => void;
 
-  constructor() {
+  constructor(onClose?: () => void) {
+    this.onClose = onClose;
     this.element = this.createElement();
     appendToBody(this.element);
     modalManager.register('settings', this.element);
+  }
+
+  setOnClose(callback: () => void): void {
+    this.onClose = callback;
   }
 
   private createElement(): HTMLElement {
@@ -133,6 +139,7 @@ export class SettingsModal {
 
   hide(): void {
     modalManager.hide('settings');
+    this.onClose?.();
   }
 
   getElement(): HTMLElement {
