@@ -108,6 +108,40 @@ const THEME_VARIABLES: Record<Theme, Record<string, string>> = {
   },
 };
 
+const VARIABLE_LABELS: Record<string, string> = {
+  '--bg-primary': 'Fondo principal',
+  '--bg-secondary': 'Fondo secundario',
+  '--bg-tertiary': 'Fondo terciario',
+  '--bg-card': 'Fondo de tarjeta',
+  '--bg-card-hover': 'Tarjeta al pasar el cursor',
+  '--bg-card-active': 'Tarjeta activa',
+  '--modal-bg': 'Fondo de modal',
+  '--input-bg': 'Fondo de campo de texto',
+  '--text-primary': 'Texto principal',
+  '--text-secondary': 'Texto secundario',
+  '--text-muted': 'Texto atenuado',
+  '--input-text': 'Texto en campo de texto',
+  '--accent-text': 'Texto sobre acento',
+  '--btn-primary-text': 'Texto botón primario',
+  '--btn-secondary-text': 'Texto botón secundario',
+  '--accent-primary': 'Color acento principal',
+  '--accent-hover': 'Acento al pasar el cursor',
+  '--hl-color': 'Resaltado',
+  '--pointer-color': 'Indicador de palabra',
+  '--focal-border': 'Borde de palabra focal',
+  '--timer-fill': 'Barra de progreso',
+  '--badge-color': 'Insignia de modo',
+  '--pause-color': 'Indicador de pausa',
+  '--border-color': 'Bordes generales',
+  '--border-focus': 'Borde de enfoque',
+  '--input-border': 'Borde de campo de texto',
+  '--modal-border': 'Borde de modal',
+  '--slider-track': 'Fondo del slider',
+  '--btn-primary-bg': 'Botón primario',
+  '--btn-secondary-bg': 'Botón secundario',
+  '--pause-bg': 'Fondo indicador de pausa',
+};
+
 const VARIABLE_GROUPS = [
   { name: 'Fondos', vars: ['--bg-primary', '--bg-secondary', '--bg-tertiary', '--bg-card', '--bg-card-hover', '--bg-card-active', '--modal-bg', '--input-bg'] },
   { name: 'Textos', vars: ['--text-primary', '--text-secondary', '--text-muted', '--input-text', '--accent-text', '--btn-primary-text', '--btn-secondary-text'] },
@@ -148,27 +182,27 @@ export class ThemeEditorModal {
 
   private createElement(): HTMLElement {
     const overlay = createElement('div', 'modal-overlay hidden', `
-      <div class="modal theme-editor-container" style="width:1120px;max-height:90vh;overflow:hidden;display:flex;flex-direction:column;">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+      <div class="modal theme-editor-container">
+        <div class="theme-editor-header">
           <h2 style="margin:0;">Editor de Temas</h2>
           <button class="btn btn-secondary" id="btn-close-theme-editor" style="padding:6px 14px;font-size:0.85rem;">Cerrar</button>
         </div>
-        <div class="theme-editor-layout" style="display:flex;flex:1;overflow:hidden;">
-          <div class="theme-editor-panel" style="flex:1;max-width:560px;overflow-y:auto;padding-right:16px;">
-            <div style="display:flex;gap:8px;margin-bottom:16px;justify-content:center;">
-              <button class="theme-tab-btn active" data-theme="dark" style="padding:8px 16px;border:1px solid var(--border-color);border-radius:6px;background:var(--bg-card);color:var(--text-primary);font-size:0.85rem;font-weight:600;cursor:pointer;">Oscuro</button>
-              <button class="theme-tab-btn" data-theme="neon" style="padding:8px 16px;border:1px solid var(--border-color);border-radius:6px;background:var(--bg-card);color:var(--text-primary);font-size:0.85rem;font-weight:600;cursor:pointer;">Neon</button>
-              <button class="theme-tab-btn" data-theme="light" style="padding:8px 16px;border:1px solid var(--border-color);border-radius:6px;background:var(--bg-card);color:var(--text-primary);font-size:0.85rem;font-weight:600;cursor:pointer;">Claro</button>
+        <div class="theme-editor-layout">
+          <div class="theme-editor-panel">
+            <div class="theme-tabs">
+              <button class="theme-tab-btn active" data-theme="dark">Oscuro</button>
+              <button class="theme-tab-btn" data-theme="neon">Neon</button>
+              <button class="theme-tab-btn" data-theme="light">Claro</button>
             </div>
-            <div id="theme-editor-content" style="max-height:60vh;overflow-y:auto;"></div>
-            <div style="display:flex;gap:8px;justify-content:flex:end;margin-top:16px;padding-top:16px;border-top:1px solid var(--border-color);">
+            <div id="theme-editor-content" class="theme-editor-content"></div>
+            <div class="theme-editor-actions">
               <button class="btn btn-secondary" id="btn-reset-theme" style="padding:6px 16px;">Restablecer</button>
               <button class="btn btn-primary" id="btn-save-theme" style="padding:6px 16px;">Guardar cambios</button>
             </div>
           </div>
-          <div class="theme-preview-panel" style="flex:1;max-width:560px;background:var(--bg-primary);border-left:1px solid var(--border-color);display:flex;flex-direction:column;overflow:hidden;">
-            <div style="padding:12px 16px;border-bottom:1px solid var(--border-color);display:flex;justify-content:space-between;align-items:center;">
-              <span style="font-weight:600;color:var(--accent-primary);">Vista Previa en Vivo</span>
+          <div class="theme-preview-panel">
+            <div class="theme-preview-header">
+              <span>Vista Previa en Vivo</span>
               <select id="preview-mode-select" style="padding:4px 8px;border-radius:4px;border:1px solid var(--border-color);background:var(--input-bg);color:var(--input-text);font-size:0.75rem;">
                 <option value="overview">Resumen general</option>
                 <option value="reading">Modo lectura</option>
@@ -176,10 +210,10 @@ export class ThemeEditorModal {
                 <option value="all">Todas las variables</option>
               </select>
             </div>
-            <div id="theme-preview-content" style="flex:1;overflow:auto;padding:16px;display:flex;flex-direction:column;align-items:center;gap:16px;"></div>
+            <div id="theme-preview-content" class="theme-preview-content"></div>
           </div>
         </div>
-        <div style="display:flex;gap:8px;justify-content:flex:end;margin-top:16px;padding-top:16px;border-top:1px solid var(--border-color);">
+        <div class="theme-editor-actions">
           <button class="btn btn-secondary" id="btn-reset-theme-2" style="padding:6px 16px;">Restablecer</button>
           <button class="btn btn-primary" id="btn-save-theme-2" style="padding:6px 16px;">Guardar cambios</button>
         </div>
@@ -228,11 +262,16 @@ export class ThemeEditorModal {
       html += `<div style="margin-bottom:20px;"><h4 style="border-bottom:1px solid var(--border-color);padding-bottom:4px;margin:0 0 12px;font-size:0.85rem;">${group.name}</h4>`;
       groupVars.forEach(varName => {
         const value = themeVars[varName];
+        const label = VARIABLE_LABELS[varName] || varName;
+        const suggestions = this.getColorSuggestions(value);
         html += `
-          <div style="display:flex;align-items:center;gap:12px;margin-bottom:10px;padding:8px;background:var(--bg-tertiary);border-radius:8px;">
-            <span style="font-size:0.75rem;color:var(--text-secondary);min-width:160px;">${varName}</span>
-            <input type="color" value="${value}" data-var="${varName}" style="width:40px;height:32px;border:none;border-radius:4px;cursor:pointer;">
-            <input type="text" value="${value}" data-var="${varName}" style="flex:1;font-family:monospace;font-size:0.75rem;padding:4px 8px;background:var(--input-bg);border:1px solid var(--border-color);border-radius:4px;color:var(--input-text);">
+          <div style="display:flex;align-items:center;gap:12px;margin-bottom:10px;padding:8px;background:var(--bg-tertiary);border-radius:8px;flex-wrap:wrap;">
+            <span style="font-size:0.75rem;color:var(--text-secondary);min-width:160px;">${label}</span>
+            <input type="color" value="${this.normalizeColor(value)}" data-var="${varName}" data-target="color" style="width:40px;height:32px;border:none;border-radius:4px;cursor:pointer;background:none;">
+            <input type="text" value="${value}" data-var="${varName}" data-target="text" style="flex:1;min-width:80px;font-family:monospace;font-size:0.75rem;padding:4px 8px;background:var(--input-bg);border:1px solid var(--border-color);border-radius:4px;color:var(--input-text);">
+            <div class="color-suggestions" data-for="${varName}" style="display:flex;gap:4px;flex-wrap:wrap;">
+              ${suggestions.map(s => `<button class="theme-swatch" data-color="${s}" data-var="${varName}" style="width:22px;height:22px;border-radius:50%;border:1px solid var(--border-color);background:${s};cursor:pointer;" title="${s}"></button>`).join('')}
+            </div>
           </div>
         `;
       });
@@ -249,6 +288,7 @@ export class ThemeEditorModal {
         this.applyVariable(varName, value);
         const textInput = container.querySelector(`input[type="text"][data-var="${varName}"]`) as HTMLInputElement;
         if (textInput) textInput.value = value;
+        this.refreshSwatches(varName, value);
       });
     });
 
@@ -260,8 +300,22 @@ export class ThemeEditorModal {
         if (this.isValidColor(value)) {
           this.applyVariable(varName, value);
           const colorInput = container.querySelector(`input[type="color"][data-var="${varName}"]`) as HTMLInputElement;
-          if (colorInput) colorInput.value = value;
+          if (colorInput) colorInput.value = this.normalizeColor(value);
+          this.refreshSwatches(varName, value);
         }
+      });
+    });
+
+    container.querySelectorAll('.theme-swatch').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const varName = (btn as HTMLElement).dataset.var!;
+        const value = (btn as HTMLElement).dataset.color!;
+        this.applyVariable(varName, value);
+        const colorInput = container.querySelector(`input[type="color"][data-var="${varName}"]`) as HTMLInputElement;
+        const textInput = container.querySelector(`input[type="text"][data-var="${varName}"]`) as HTMLInputElement;
+        if (colorInput) colorInput.value = this.normalizeColor(value);
+        if (textInput) textInput.value = value;
+        this.refreshSwatches(varName, value);
       });
     });
   }
@@ -270,6 +324,96 @@ export class ThemeEditorModal {
     const s = new Option().style;
     s.color = value;
     return s.color !== '';
+  }
+
+  private normalizeColor(value: string): string {
+    if (!value || value === 'transparent') return '#000000';
+    const s = new Option().style;
+    s.color = value;
+    if (!s.color) return '#000000';
+    const match = s.color.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
+    if (match) {
+      const toHex = (n: number) => n.toString(16).padStart(2, '0');
+      return `#${toHex(Number(match[1]))}${toHex(Number(match[2]))}${toHex(Number(match[3]))}`;
+    }
+    return value;
+  }
+
+  private hexToHsl(hex: string): { h: number; s: number; l: number } | null {
+    const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    if (!result) return null;
+    let r = parseInt(result[1], 16) / 255;
+    let g = parseInt(result[2], 16) / 255;
+    let b = parseInt(result[3], 16) / 255;
+    const max = Math.max(r, g, b), min = Math.min(r, g, b);
+    let h = 0, s = 0, l = (max + min) / 2;
+    if (max !== min) {
+      const d = max - min;
+      s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+      switch (max) {
+        case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+        case g: h = (b - r) / d + 2; break;
+        case b: h = (r - g) / d + 4; break;
+      }
+      h *= 60;
+    }
+    return { h, s: +(s * 100).toFixed(1), l: +(l * 100).toFixed(1) };
+  }
+
+  private hslToHex(h: number, s: number, l: number): string {
+    h = ((h % 360) + 360) % 360;
+    s = Math.max(0, Math.min(100, s)) / 100;
+    l = Math.max(0, Math.min(100, l)) / 100;
+    const c = (1 - Math.abs(2 * l - 1)) * s;
+    const x = c * (1 - Math.abs(((h / 60) % 2) - 1));
+    const m = l - c / 2;
+    let r = 0, g = 0, b = 0;
+    if (h < 60) { r = c; g = x; b = 0; }
+    else if (h < 120) { r = x; g = c; b = 0; }
+    else if (h < 180) { r = 0; g = c; b = x; }
+    else if (h < 240) { r = 0; g = x; b = c; }
+    else if (h < 300) { r = x; g = 0; b = c; }
+    else { r = c; g = 0; b = x; }
+    const toHex = (n: number) => Math.round((n + m) * 255).toString(16).padStart(2, '0');
+    return `#${toHex(r)}${toHex(g)}${toHex(b)}`;
+  }
+
+  private getColorSuggestions(hex: string): string[] {
+    const hsl = this.hexToHsl(hex);
+    if (!hsl) return [];
+    const suggestions = new Set<string>();
+    const add = (h: number, s: number, l: number) => suggestions.add(this.hslToHex(h, s, l));
+    add(hsl.h, hsl.s, hsl.l);
+    add((hsl.h + 30) % 360, hsl.s, hsl.l);
+    add((hsl.h + 60) % 360, hsl.s, hsl.l);
+    add((hsl.h + 90) % 360, hsl.s, hsl.l);
+    add((hsl.h + 120) % 360, hsl.s, hsl.l);
+    add((hsl.h + 180) % 360, hsl.s, hsl.l);
+    add((hsl.h + 210) % 360, hsl.s, hsl.l);
+    add((hsl.h + 240) % 360, hsl.s, hsl.l);
+    add(hsl.h, Math.max(0, hsl.s - 20), Math.min(100, hsl.l + 20));
+    add(hsl.h, Math.max(0, hsl.s - 20), Math.max(0, hsl.l - 20));
+    add(hsl.h, Math.min(100, hsl.s + 20), hsl.l);
+    return Array.from(suggestions).slice(0, 8);
+  }
+
+  private refreshSwatches(varName: string, value: string): void {
+    const container = this.element.querySelector(`.color-suggestions[data-for="${varName}"]`);
+    if (!container) return;
+    const suggestions = this.getColorSuggestions(value);
+    container.innerHTML = suggestions.map(s => `<button class="theme-swatch" data-color="${s}" data-var="${varName}" style="width:22px;height:22px;border-radius:50%;border:1px solid var(--border-color);background:${s};cursor:pointer;" title="${s}"></button>`).join('');
+    container.querySelectorAll('.theme-swatch').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const v = (btn as HTMLElement).dataset.var!;
+        const c = (btn as HTMLElement).dataset.color!;
+        this.applyVariable(v, c);
+        const colorInput = (this.element.querySelector(`input[type="color"][data-var="${v}"]`) as HTMLInputElement | null);
+        const textInput = (this.element.querySelector(`input[type="text"][data-var="${v}"]`) as HTMLInputElement | null);
+        if (colorInput) colorInput.value = this.normalizeColor(c);
+        if (textInput) textInput.value = c;
+        this.refreshSwatches(v, c);
+      });
+    });
   }
 
   private applyVariable(varName: string, value: string): void {
