@@ -268,11 +268,13 @@ export class ThemeEditorModal {
       groupVars.forEach(varName => {
         const value = themeVars[varName];
         const label = VARIABLE_LABELS[varName] || varName;
+        const relations = COLOR_RELATIONS[varName] || [];
         html += `
           <div class="theme-row">
             <span class="theme-row-label">${label}</span>
             <input type="color" class="theme-row-input" value="${this.normalizeColor(value)}" data-var="${varName}">
             <input type="text" class="theme-row-text" value="${value}" data-var="${varName}">
+            ${relations.length ? `<div class="color-suggestions" data-for="${varName}"></div>` : ''}
           </div>
         `;
       });
@@ -280,6 +282,8 @@ export class ThemeEditorModal {
     });
 
     container.innerHTML = html;
+
+    this.applyAllSuggestions(this.getCurrentThemeVars());
 
     const syncVariable = (varName: string, value: string) => {
       this.applyVariable(varName, value);
@@ -338,6 +342,39 @@ export class ThemeEditorModal {
           if (first) (first as HTMLElement).click();
         }, 0);
       }
+    });
+  }
+
+  private applyAllSuggestions(themeVars: Record<string, string>): void {
+    Object.entries(COLOR_RELATIONS).forEach(([sourceVar, targetVars]) => {
+      const value = themeVars[sourceVar];
+      if (!value) return;
+      targetVars.forEach(targetVar => {
+        const container = this.element.querySelector(`.color-suggestions[data-for="${targetVar}"]`);
+        if (!container) return;
+        const suggestions = this.getColorSuggestions(value);
+        const currentValue = themeVars[targetVar] || '#000000';
+        const closest = this.findClosestColor(currentValue, suggestions);
+        container.innerHTML = suggestions.map(s => `<button class="theme-swatch" data-color="${s}" data-var="${targetVar}" style="background:${s};" title="${s}"></button>`).join('');
+        container.querySelectorAll('.theme-swatch').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const v = (btn as HTMLElement).dataset.var!;
+            const c = (btn as HTMLElement).dataset.color!;
+            this.applyVariable(v, c);
+            const colorInput = (this.element.querySelector(`input[type="color"][data-var="${v}"]`) as HTMLInputElement | null);
+            const textInput = (this.element.querySelector(`input[type="text"][data-var="${v}"]`) as HTMLInputElement | null);
+            if (colorInput) colorInput.value = this.normalizeColor(c);
+            if (textInput) textInput.value = c;
+            this.updatePreview();
+          });
+        });
+        if (closest) {
+          setTimeout(() => {
+            const first = container.querySelector('.theme-swatch');
+            if (first) (first as HTMLElement).click();
+          }, 0);
+        }
+      });
     });
   }
 
@@ -454,33 +491,41 @@ export class ThemeEditorModal {
     container.innerHTML = `
       <div class="theme-preview-card">
         <div class="theme-preview-card-title">Vista previa unificada</div>
-        <div style="display:flex;gap:12px;flex-wrap:wrap;justify-content:center;">
-          <div style="background:var(--bg-card);border:1px solid var(--border-color);border-radius:10px;padding:12px;text-align:center;min-width:120px;">
-            <div style="font-size:1.5rem;margin-bottom:4px;">|</div>
-            <div style="font-weight:600;color:var(--text-primary);font-size:0.8rem;">Palabra</div>
-            <div style="font-size:0.7rem;color:var(--text-secondary);">Modo palabra</div>
-          </div>
-          <div style="background:var(--bg-card);border:1px solid var(--border-color);border-radius:10px;padding:12px;text-align:center;min-width:120px;">
-            <div style="font-size:1.2rem;color:var(--accent-primary);margin-bottom:4px;">···</div>
-            <div style="font-weight:600;color:var(--text-primary);font-size:0.8rem;">Grupo</div>
-            <div style="font-size:0.7rem;color:var(--text-secondary);">Modo chunk</div>
-          </div>
-          <div style="background:var(--bg-card);border:1px solid var(--border-color);border-radius:10px;padding:12px;text-align:center;min-width:120px;">
-            <div style="font-size:1.2rem;color:var(--hl-color);margin-bottom:4px;">“...”</div>
-            <div style="font-weight:600;color:var(--text-primary);font-size:0.8rem;">Frase</div>
-            <div style="font-size:0.7rem;color:var(--text-secondary);">Modo línea</div>
-          </div>
-          <div style="background:var(--bg-card);border:1px solid var(--border-color);border-radius:10px;padding:12px;text-align:center;min-width:120px;">
-            <div style="font-size:1.2rem;color:var(--timer-fill);margin-bottom:4px;">⇡</div>
-            <div style="font-weight:600;color:var(--text-primary);font-size:0.8rem;">Galáctico</div>
-            <div style="font-size:0.7rem;color:var(--text-secondary);">Scroll</div>
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:12px;">
+          <div style="font-weight:700;color:var(--text-primary);font-size:0.9rem;">Lectura Veloz</div>
+          <div style="display:flex;gap:8px;">
+            <button class="btn btn-primary" style="padding:6px 12px;font-size:0.75rem;">Primario</button>
+            <button class="btn btn-secondary" style="padding:6px 12px;font-size:0.75rem;">Secundario</button>
           </div>
         </div>
-        <div style="margin-top:12px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap;">
-          <button class="btn btn-primary" style="padding:8px 16px;">Primario</button>
-          <button class="btn btn-secondary" style="padding:8px 16px;">Secundario</button>
+        <div style="background:var(--bg-card);border:1px solid var(--border-color);border-radius:10px;padding:12px;margin-bottom:12px;">
+          <div class="word-display" style="max-width:420px;">
+            <span class="context-extra">Contexto </span>
+            <span class="pointer">|</span><span class="focal">Palabra</span>
+            <span class="context-extra"> siguiente</span>
+          </div>
         </div>
-        <div style="margin-top:12px;">
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:12px;">
+          <div style="display:flex;gap:8px;align-items:center;">
+            <span style="color:var(--text-secondary);font-size:0.75rem;">Progreso:</span>
+            <span id="word-counter" style="color:var(--accent-primary);font-weight:700;font-size:0.8rem;">1 / 10</span>
+            <span style="color:var(--text-secondary);font-size:0.75rem;">Tiempo:</span>
+            <span id="elapsed-time" style="color:var(--accent-primary);font-weight:700;font-size:0.8rem;">0:00</span>
+          </div>
+          <div id="mode-badge" style="padding:4px 10px;border-radius:12px;font-size:0.75rem;font-weight:700;background:var(--badge-color);color:var(--accent-text);">Palabra</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:12px;">
+          <button class="btn btn-secondary" style="padding:6px 10px;font-size:0.75rem;">⏸️</button>
+          <div class="slider-group" style="display:inline-flex;align-items:center;gap:6px;background:var(--btn-secondary-bg);padding:4px 8px;border-radius:6px;">
+            <input type="range" min="50" max="999" value="250" step="10" style="width:72px;">
+            <span class="wpm-value" style="font-size:0.85rem;font-weight:800;color:var(--accent-primary);min-width:24px;text-align:center;">250</span>
+            <button class="btn btn-secondary" style="padding:2px 8px;font-size:0.75rem;">−</button>
+            <button class="btn btn-secondary" style="padding:2px 8px;font-size:0.75rem;">+</button>
+          </div>
+          <button class="btn btn-secondary" style="padding:6px 10px;font-size:0.75rem;">↩️</button>
+          <button class="btn btn-secondary" style="padding:6px 10px;font-size:0.75rem;">🏠</button>
+        </div>
+        <div>
           <label style="display:block;font-size:0.8rem;color:var(--text-secondary);margin-bottom:4px;">Velocidad</label>
           <input type="range" min="50" max="999" value="250" step="10" style="width:100%;-webkit-appearance:none;height:5px;border-radius:3px;background:var(--slider-track);">
         </div>
