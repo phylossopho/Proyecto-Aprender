@@ -108,7 +108,7 @@ class App {
          <div class="pause-indicator" id="pause-indicator">PAUSADO</div>
        </main>
 
-        <div class="controls" id="controls-container" style="display:none;">
+         <div class="controls" id="controls-container">
           <button class="btn btn-secondary" id="btn-pause">⏸️</button>
           <div class="control-separator"></div>
           <button class="btn btn-secondary" id="btn-reset">🔁</button>
@@ -256,7 +256,7 @@ class App {
     this.controls.startEngine();
 
     const controls = document.getElementById('controls-container');
-    if (controls) controls.style.display = 'block';
+    if (controls) controls.classList.add('controls-visible');
 
     const wordDisplay = document.getElementById('word-display');
     if (wordDisplay) {

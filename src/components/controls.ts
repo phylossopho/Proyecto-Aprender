@@ -86,7 +86,7 @@ export class ControlsManager {
     // Toggle controls container visibility based on session state
     const controlsContainer = document.getElementById('controls-container');
     if (controlsContainer) {
-      controlsContainer.style.display = state.isRunning ? 'block' : 'none';
+      controlsContainer.classList.toggle('controls-visible', state.isRunning);
     }
 
     // Update mode badge
@@ -199,7 +199,7 @@ export class ControlsManager {
     this.currentEngine.scheduleNext();
 
     const controls = document.getElementById('controls-container');
-    if (controls) controls.style.display = 'block';
+    if (controls) controls.classList.add('controls-visible');
 
     SistemaAudio.getInstance().reproducir('reiniciar');
   }
@@ -282,7 +282,7 @@ export class ControlsManager {
 
   private ocultarControles(): void {
     const controls = document.getElementById('controls-container');
-    if (controls) controls.style.display = 'none';
+    if (controls) controls.classList.remove('controls-visible');
     const wordDisplay = document.getElementById('word-display');
     if (wordDisplay) {
       const span = wordDisplay.querySelector('span');

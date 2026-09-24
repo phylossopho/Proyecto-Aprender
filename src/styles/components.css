@@ -2,10 +2,10 @@
 
 /* Buttons */
 .btn {
-  padding: var(--space-xs) var(--space-sm);
+  padding: 4px 8px;
   border: none;
   border-radius: var(--radius-sm);
-  font-size: 0.875rem;
+  font-size: 0.8rem;
   font-weight: 700;
   cursor: pointer;
   transition: all var(--transition-normal);
@@ -14,8 +14,9 @@
   justify-content: center;
   gap: var(--space-xs);
   font-family: 'Baloo 2', cursive;
-  min-height: 36px;
-  min-width: 36px;
+  min-height: 28px;
+  min-width: 28px;
+  white-space: nowrap;
 }
 
 .btn-primary {
@@ -68,13 +69,14 @@
 
 /* Slider group */
 .slider-group {
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  gap: var(--space-sm);
+  gap: 4px;
   background: var(--btn-secondary-bg);
-  padding: var(--space-xs) var(--space-sm);
+  padding: 4px 6px;
   border-radius: var(--radius-sm);
-  min-height: 36px;
+  min-height: 32px;
+  white-space: nowrap;
 }
 
 .slider-group label {
@@ -86,8 +88,8 @@
 .slider-group input[type="range"] {
   -webkit-appearance: none;
   appearance: none;
-  width: 110px;
-  height: 5px;
+  width: 56px;
+  height: 4px;
   border-radius: 3px;
   background: var(--slider-track);
   outline: none;
@@ -119,10 +121,10 @@
 }
 
 .wpm-value {
-  font-size: 1rem;
+  font-size: 0.875rem;
   font-weight: 800;
   color: var(--accent-primary);
-  min-width: 40px;
+  min-width: 24px;
   text-align: center;
   font-family: 'Baloo 2', cursive;
 }

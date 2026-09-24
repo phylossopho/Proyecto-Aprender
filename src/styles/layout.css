@@ -131,29 +131,54 @@ body {
 .controls {
   position: fixed;
   bottom: var(--space-sm);
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  flex-wrap: nowrap;
+  left: 0;
+  right: 0;
+  display: none;
+  grid-auto-flow: column;
+  grid-auto-columns: min-content;
   align-items: center;
-  gap: var(--space-xs);
+  justify-content: center;
+  gap: 4px;
   z-index: 10;
   background: var(--bg-secondary);
   border: 1px solid var(--border-color);
-  padding: var(--space-xs) var(--space-sm);
+  padding: 4px 8px;
   border-radius: var(--radius-lg);
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
   overflow-x: auto;
   width: auto;
   max-width: 100vw;
+  min-width: 0;
+  white-space: nowrap;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+.controls.controls-visible {
+  display: inline-grid;
+}
+
+.controls::-webkit-scrollbar {
+  display: none;
+}
+
+.controls > * {
+  flex-shrink: 0;
 }
 
 .controls .slider-group {
   display: inline-flex;
   align-items: center;
-  gap: var(--space-xs);
+  gap: 4px;
   flex-wrap: nowrap;
   flex-direction: row;
+  background: var(--btn-secondary-bg);
+  padding: 4px 6px;
+  border-radius: var(--radius-sm);
+  min-height: 28px;
+  flex-shrink: 1;
+  min-width: 0;
+  white-space: nowrap;
 }
 
 .control-separator {
