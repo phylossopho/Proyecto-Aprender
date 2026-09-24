@@ -7,7 +7,6 @@ import { ControlsManager } from './components/controls.js';
 import { CategoriaModal } from './components/categoria-modal.js';
 import { IdeasModal } from './components/ideas-modal.js';
 import { settingsModal } from './components/settings-modal.js';
-import { themeEditorModal } from './components/theme-editor-modal.js';
 import { SistemaAudio } from './utils/audio.js';
 import { CATEGORIAS, type CategoriaId } from './core/categorias.js';
 import type { Mode } from './core/types.js';
@@ -91,10 +90,9 @@ class App {
            <div>Progreso: <span id="word-counter">0 / 0</span></div>
            <div>Tiempo: <span id="elapsed-time">0:00</span></div>
          </div>
-         <div style="display:flex;align-items:center;gap:12px;">
-           <button class="settings-btn" id="btn-visual-customize" aria-label="Personalizar colores">${ICONO_PALETAL}</button>
-           <button class="settings-btn" id="btn-settings" aria-label="Configuración">${ICONO_CONFIGURACION}</button>
-         </div>
+          <div style="display:flex;align-items:center;gap:12px;">
+            <button class="settings-btn" id="btn-settings" aria-label="Configuración">${ICONO_CONFIGURACION}</button>
+          </div>
        </header>
 
         <main class="main-area">
@@ -112,7 +110,6 @@ class App {
       <div class="modal-overlay hidden" id="config-modal"></div>
       <div class="modal-overlay hidden" id="texts-modal"></div>
       <div class="modal-overlay hidden" id="settings-modal"></div>
-      <div class="modal-overlay hidden" id="theme-editor-modal"></div>
 
       <audio id="sonidoAcierto" preload="auto"></audio>
     `;
@@ -144,9 +141,6 @@ class App {
 
     const settingsBtn = document.getElementById('btn-settings');
     settingsBtn?.addEventListener('click', () => settingsModal.show());
-
-    const customizeBtn = document.getElementById('btn-visual-customize');
-    customizeBtn?.addEventListener('click', () => this.openVisualCustomizer());
   }
 
   private handleCategoriaSelect(categoriaId: CategoriaId): void {
@@ -248,10 +242,6 @@ class App {
 
     const btnPause = document.getElementById('btn-pause') as HTMLButtonElement;
     if (btnPause) btnPause.disabled = false;
-  }
-
-  private openVisualCustomizer(): void {
-    themeEditorModal.show();
   }
 }
 

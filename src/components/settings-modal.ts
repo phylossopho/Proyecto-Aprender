@@ -44,10 +44,6 @@ export class SettingsModal {
             <span class="setting-label">Palabras por grupo:</span>
             <div class="chunk-options" id="chunk-options"></div>
           </div>
-          <div class="setting-row" style="border-bottom:none;">
-            <span class="setting-label">Editor de temas:</span>
-            <button class="btn btn-secondary" id="btn-theme-editor" style="padding:6px 16px;font-size:0.85rem;">Abrir editor</button>
-          </div>
           <div class="setting-row" style="border-bottom:none;margin-top:16px;padding-top:16px;border-top:1px solid var(--border-color);">
             <div class="stats-summary" id="stats-summary"></div>
           </div>
@@ -63,12 +59,6 @@ export class SettingsModal {
     this.renderChunkOptions(overlay);
     this.setupWPMSlider(overlay);
     this.renderStats(overlay);
-
-    const themeEditorBtn = overlay.querySelector('#btn-theme-editor') as HTMLButtonElement;
-    themeEditorBtn.addEventListener('click', () => {
-      this.hide();
-      import('./theme-editor-modal.js').then(m => m.themeEditorModal.show());
-    });
 
     return overlay;
   }
