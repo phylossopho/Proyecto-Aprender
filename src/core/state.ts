@@ -92,7 +92,8 @@ export class StateManager {
   loadText(text: string): void {
     const words = text.trim().split(/\s+/).filter(w => w.length > 0);
     const sentences = splitSentences(text);
-    const chunks = splitIntoChunks(text, this.state.chunkSize);
+    const maxChars = this.getMaxCharsPerChunk();
+    const chunks = splitIntoChunks(text, this.state.chunkSize, maxChars);
 
     this.update({
       words,
@@ -102,6 +103,13 @@ export class StateManager {
       currentChunk: 0,
       currentSentence: 0,
     });
+  }
+
+  private getMaxCharsPerChunk(): number | undefined {
+    const width = window.innerWidth;
+    if (width < 480) return 20;
+    if (width < 768) return 35;
+    return 55;
   }
 
   setMode(mode: Mode): void {

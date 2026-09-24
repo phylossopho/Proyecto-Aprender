@@ -19,6 +19,9 @@ export class ControlsManager {
   private modeBadge: HTMLElement | null = null;
   private wordCounter: HTMLElement | null = null;
   private elapsedTimeEl: HTMLElement | null = null;
+  private fontInc: HTMLButtonElement | null = null;
+  private fontDec: HTMLButtonElement | null = null;
+  private displayScale = 1;
 
   constructor() {
     this.ensureControlsContainer();
@@ -60,6 +63,9 @@ export class ControlsManager {
         <button class="btn btn-secondary chunk-opt" data-chunk="7">7</button>
       </div>
       <div class="control-separator"></div>
+      <button class="btn btn-secondary" id="btn-font-dec">A⁻</button>
+      <button class="btn btn-secondary" id="btn-font-inc">A⁺</button>
+      <div class="control-separator"></div>
       <button class="btn btn-secondary" id="btn-volver-categoria">↩️</button>
       <button class="btn btn-secondary" id="btn-home">🏠</button>
     `;
@@ -70,13 +76,15 @@ export class ControlsManager {
     this.btnReset = document.getElementById('btn-reset') as HTMLButtonElement;
     this.wpmSlider = document.getElementById('wpm-slider') as HTMLInputElement;
     this.wpmDisplay = document.getElementById('wpm-display');
-    this.chunkRow = document.getElementById('chunk-row');
+    this.chunkRow = document.getElementById('chunk-options');
     this.lineTimerBar = document.getElementById('line-timer-bar');
     this.lineTimerFill = document.getElementById('line-timer-fill');
     this.pauseIndicator = document.getElementById('pause-indicator');
     this.modeBadge = document.getElementById('mode-badge');
     this.wordCounter = document.getElementById('word-counter');
     this.elapsedTimeEl = document.getElementById('elapsed-time');
+    this.fontInc = document.getElementById('btn-font-inc') as HTMLButtonElement | null;
+    this.fontDec = document.getElementById('btn-font-dec') as HTMLButtonElement | null;
   }
 
   private bindEvents(): void {
@@ -88,6 +96,9 @@ export class ControlsManager {
     document.querySelectorAll('.chunk-opt').forEach(btn => {
       (btn as HTMLElement).addEventListener('click', () => this.handleChunkChange(Number((btn as HTMLElement).dataset.chunk)));
     });
+
+    this.fontInc?.addEventListener('click', () => this.adjustDisplayScale(0.1));
+    this.fontDec?.addEventListener('click', () => this.adjustDisplayScale(-0.1));
 
     document.addEventListener('keydown', (e) => this.handleKeydown(e));
   }
@@ -264,6 +275,12 @@ export class ControlsManager {
     document.querySelectorAll('.chunk-opt').forEach(btn => {
       (btn as HTMLElement).classList.toggle('active', Number((btn as HTMLElement).dataset.chunk) === size);
     });
+  }
+
+  private adjustDisplayScale(delta: number): void {
+    this.displayScale = Math.max(0.6, Math.min(1.6, this.displayScale + delta));
+    const display = document.getElementById('word-display');
+    if (display) display.style.fontSize = `${this.displayScale}em`;
   }
 
   private handleKeydown(e: KeyboardEvent): void {

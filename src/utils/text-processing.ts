@@ -29,13 +29,35 @@ export function splitSentences(text: string): string[] {
   return raw.map(s => s.trim()).filter(s => s.length > 0);
 }
 
-export function splitIntoChunks(text: string, targetSize: number): TextChunk[] {
+export function splitIntoChunks(text: string, targetSize: number, maxCharsPerChunk?: number): TextChunk[] {
   const allWords = text.trim().split(/\s+/).filter(w => w.length > 0);
   const result: TextChunk[] = [];
   let start = 0;
 
   while (start < allWords.length) {
-    let end = Math.min(start + targetSize, allWords.length);
+    let end = start + targetSize;
+    if (end > allWords.length) end = allWords.length;
+
+    if (maxCharsPerChunk != null) {
+      let chars = 0;
+      for (let i = start; i < allWords.length; i++) {
+        const word = allWords[i];
+        const weight = word.length > 7 ? 2 : 1;
+        const projectedChars = chars + word.length + (i > start ? 1 : 0);
+        if (i > start && (chars >= maxCharsPerChunk || (weight > 1 && projectedChars > maxCharsPerChunk * 1.4))) {
+          end = i;
+          break;
+        }
+        chars = projectedChars;
+        if (chars >= maxCharsPerChunk && i > start) {
+          end = i + 1;
+          break;
+        }
+        if (i === allWords.length - 1) end = allWords.length;
+      }
+    }
+
+    if (!maxCharsPerChunk && end > start) end = Math.min(start + targetSize, allWords.length);
 
     for (let i = end; i > start; i--) {
       const word = allWords[i - 1];
