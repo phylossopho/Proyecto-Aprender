@@ -1,0 +1,86 @@
+/* ===== RESPONSIVE.CSS - Mobile and tablet breakpoints ===== */
+
+@media (max-width: 768px) {
+  .top-bar {
+    padding: var(--space-xs) var(--space-sm);
+    height: 48px;
+  }
+
+  .top-bar h1 { font-size: 1.1rem; }
+
+  .stats { display: none; }
+
+  .main-area {
+    padding: var(--space-md) var(--space-sm);
+    min-height: calc(100vh - 140px);
+  }
+
+  .word-display { min-height: 100px; }
+
+  .controls {
+    padding: var(--space-sm);
+  }
+
+  .control-row {
+    flex-wrap: wrap;
+    gap: var(--space-sm);
+  }
+
+  .slider-group {
+    flex-direction: column;
+    gap: var(--space-xs);
+  }
+
+  .modal { max-width: 90vw; padding: var(--space-md); }
+
+  .settings-btn {
+    font-size: 1.1rem;
+    padding: var(--space-xs);
+  }
+
+  /* Mode cards grid */
+  .mode-cards {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-sm);
+  }
+
+  /* Categoria cards grid */
+  .categoria-cards {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-sm);
+  }
+
+  /* Galáctico mobile */
+  .galactico-content {
+    font-size: 1.8rem;
+    line-height: 1.8;
+    letter-spacing: 1px;
+  }
+
+  .galactico-chunk { margin: 1rem 0; }
+
+  .countdown-number { font-size: 5rem; }
+}
+
+@media (max-width: 480px) {
+  :root { --display-scale: 0.8; }
+
+  .top-bar h1 { font-size: 1rem; }
+
+  .main-area { padding: var(--space-sm); }
+
+  .control-row { justify-content: center; }
+
+  .settings-btn {
+    width: 44px;
+    height: 44px;
+    font-size: 1.1rem;
+  }
+}
+
+@media (min-width: 1200px) {
+  .main-area { max-width: var(--max-width, 900px); }
+  .controls { max-width: 900px; }
+}

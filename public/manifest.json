@@ -1,0 +1,9 @@
+{
+  "name": "Lectura Veloz",
+  "short_name": "LecturaVeloz",
+  "description": "Entrenador de Lectura Veloz - Practica lectura rapida con multiples modos",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0f0f1a",
+  "theme_color": "#7c8aff"
+}

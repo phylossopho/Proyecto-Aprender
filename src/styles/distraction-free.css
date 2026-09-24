@@ -1,0 +1,6 @@
+/* ===== DISTRACTION-FREE.CSS — Modo lectura enfocado ===== */
+
+/* Hide settings buttons and other distractions during reading */
+.settings-btn[data-hidden="true"] {
+  display: none !important;
+}

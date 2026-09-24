@@ -1,0 +1,129 @@
+/* ===== VARIABLES.CSS - CSS Custom Properties ===== */
+
+:root {
+  /* Default theme (dark) - will be overridden by theme classes */
+  --bg-primary: #0f0f1a;
+  --bg-secondary: #1a1a2e;
+  --bg-tertiary: #2a2a4a;
+  --bg-card: #2a2a4a;
+  --bg-card-hover: #3a3a5a;
+  --bg-card-active: #252548;
+  --border-color: #2a2a4a;
+  --border-focus: #7c8aff;
+  --text-primary: #e0e0e0;
+  --text-secondary: #999;
+  --text-muted: #777;
+  --accent-primary: #7c8aff;
+  --accent-hover: #6a78ee;
+  --accent-text: #ffffff;
+  --btn-primary-bg: #7c8aff;
+  --btn-primary-text: #fff;
+  --btn-secondary-bg: #2a2a4a;
+  --btn-secondary-text: #aaa;
+  --btn-disabled-opacity: 0.4;
+  --input-bg: #0f0f1a;
+  --input-border: #3a3a5a;
+  --input-text: #e0e0e0;
+  --modal-bg: #1a1a2e;
+  --modal-border: #2a2a4a;
+  --slider-track: #4a4a6a;
+  --hl-color: var(--accent-primary);
+  --pointer-color: var(--accent-primary);
+  --focal-border: var(--accent-primary);
+  --timer-fill: var(--accent-primary);
+  --badge-color: var(--accent-primary);
+  --pause-color: var(--accent-primary);
+  --pause-bg: rgba(124, 138, 255, 0.15);
+  --settings-btn-hover: rgba(124, 138, 255, 0.1);
+  --settings-btn-text: #555;
+  --chunk-opt-active-bg: var(--accent-primary);
+  --chunk-opt-active-text: #fff;
+  --chunk-opt-active-border: var(--accent-primary);
+  --sample-btn-bg: var(--bg-tertiary);
+  --sample-btn-border: var(--border-color);
+  --sample-btn-text: var(--text-primary);
+  --sample-btn-hover-border: var(--accent-primary);
+  --sample-btn-hover-text: var(--btn-primary-text);
+  --saved-text-bg: var(--bg-tertiary);
+  --saved-text-border: var(--border-color);
+  --saved-text-hover-bg: var(--bg-card-hover);
+  --saved-text-hover-border: #4ade80;
+  --saved-text-title: var(--text-primary);
+  --saved-text-preview: #888;
+  --saved-text-deleted-bg: #3a2a2a;
+  --saved-text-deleted-border: #8a3a3a;
+  --saved-text-deleted-opacity: 0.4;
+  --btn-use-bg: #4ade80;
+  --btn-use-text: #000;
+  --btn-use-hover-bg: #3fd870;
+  --btn-edit-bg: var(--accent-primary);
+  --btn-edit-text: var(--btn-primary-text);
+  --btn-edit-hover-bg: var(--accent-hover);
+  --btn-delete-bg: #ef4444;
+  --btn-delete-text: #fff;
+  --btn-delete-hover-bg: #dc2626;
+  --btn-cancel-bg: #9ca3af;
+  --btn-cancel-text: #fff;
+  --btn-save-bg: #4ade80;
+  --btn-save-text: #000;
+  --edit-form-input-bg: var(--input-bg);
+  --edit-form-input-border: var(--input-border);
+  --edit-form-input-text: var(--input-text);
+  --edit-form-input-focus: #4ade80;
+  --galactico-bg: #000;
+  --galactico-text: #ffd700;
+  --galactico-content-bg: #000;
+  --countdown-text: var(--accent-primary);
+  --countdown-shadow: var(--accent-primary);
+  --mode-texts-bg: #1a3a2a;
+  --mode-texts-hover-bg: #2a4a3a;
+  --mode-texts-active-bg: #1a4a2a;
+  --mode-texts-active-border: #4ade80;
+  --mode-texts-when: #4ade80;
+  --mode-texts-icon: #4ade80;
+
+  /* Category card colors */
+  --cat-lectura-bg: #1a3a7a;
+  --cat-lectura-hover-bg: #2a5aaf;
+  --cat-lectura-icon: #4a9eff;
+  --cat-evaluaciones-bg: #7a1a7a;
+  --cat-evaluaciones-hover-bg: #9a2aa0;
+  --cat-evaluaciones-icon: #c96eff;
+  --cat-textos-bg: #7a4a1a;
+  --cat-textos-hover-bg: #a06a2a;
+  --cat-textos-icon: #ffb84d;
+  --cat-juegos-bg: #1a5a3a;
+  --cat-juegos-hover-bg: #2a7a4a;
+  --cat-juegos-icon: #4ade80;
+}
+
+/* Font size scales */
+.font-small { --display-scale: 0.85; }
+.font-medium { --display-scale: 1; }
+.font-large { --display-scale: 1.25; }
+
+/* Spacing scale */
+:root {
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 32px;
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --transition-fast: 0.15s ease;
+  --transition-normal: 0.2s ease;
+  --transition-slow: 0.3s ease;
+}
+
+/* Z-index scale */
+:root {
+  --z-base: 1;
+  --z-dropdown: 100;
+  --z-modal: 200;
+  --z-toast: 300;
+  --z-tooltip: 400;
+  --z-visual-customizer: 2000;
+}

@@ -1,0 +1,38 @@
+# Dependencias
+node_modules/
+
+# Build output
+dist/
+
+# Archivos de entorno / secretos
+.env
+.env.local
+
+# IDE / Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+
+# Testing
+coverage/
+.nyc_output/
+
+# Carpeta basura antigua
+2/
+
+# Docs internas
+TYPESCRIPT_MIGRATION_ISSUES.md
+prompt.txt
+lectura_veloz.txt
+
+# Archivos locales de progreso
+progress.json

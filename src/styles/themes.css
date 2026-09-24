@@ -1,0 +1,364 @@
+/* ===== THEMES.CSS - Theme variants ===== */
+
+/* Dark theme (default) */
+.theme-dark {
+  --bg-primary: #0f0f1a;
+  --bg-secondary: #1a1a2e;
+  --bg-tertiary: #2a2a4a;
+  --bg-card: #2a2a4a;
+  --bg-card-hover: #3a3a5a;
+  --bg-card-active: #252548;
+  --border-color: #2a2a4a;
+  --border-focus: #7c8aff;
+  --text-primary: #e0e0e0;
+  --text-secondary: #999;
+  --text-muted: #777;
+  --accent-primary: #7c8aff;
+  --accent-hover: #6a78ee;
+  --accent-text: #ffffff;
+  --btn-primary-bg: #7c8aff;
+  --btn-primary-text: #fff;
+  --btn-secondary-bg: #2a2a4a;
+  --btn-secondary-text: #aaa;
+  --input-bg: #0f0f1a;
+  --input-border: #3a3a5a;
+  --input-text: #e0e0e0;
+  --modal-bg: #1a1a2e;
+  --modal-border: #2a2a4a;
+  --slider-track: #4a4a6a;
+  --hl-color: #7c8aff;
+  --pointer-color: #7c8aff;
+  --focal-border: #7c8aff;
+  --timer-fill: #7c8aff;
+  --badge-color: #7c8aff;
+  --pause-color: #7c8aff;
+  --pause-bg: rgba(124, 138, 255, 0.15);
+  --settings-btn-hover: rgba(124, 138, 255, 0.1);
+  --settings-btn-text: #aaa;
+  --chunk-opt-active-bg: #7c8aff;
+  --chunk-opt-active-text: #fff;
+  --chunk-opt-active-border: #7c8aff;
+  --sample-btn-bg: #2a2a4a;
+  --sample-btn-border: #3a3a5a;
+  --sample-btn-text: #e0e0e0;
+  --sample-btn-hover-border: #7c8aff;
+  --sample-btn-hover-text: #fff;
+  --saved-text-bg: #2a2a4a;
+  --saved-text-border: #3a3a5a;
+  --saved-text-hover-bg: #3a3a5a;
+  --saved-text-hover-border: #4ade80;
+  --saved-text-title: #e0e0e0;
+  --saved-text-preview: #888;
+  --saved-text-deleted-bg: #3a2a2a;
+  --saved-text-deleted-border: #8a3a3a;
+  --btn-use-bg: #4ade80;
+  --btn-use-text: #000;
+  --btn-use-hover-bg: #3fd870;
+  --btn-edit-bg: #7c8aff;
+  --btn-edit-text: #fff;
+  --btn-edit-hover-bg: #6a78ee;
+  --btn-delete-bg: #ef4444;
+  --btn-delete-text: #fff;
+  --btn-delete-hover-bg: #dc2626;
+  --btn-cancel-bg: #9ca3af;
+  --btn-cancel-text: #fff;
+  --btn-save-bg: #4ade80;
+  --btn-save-text: #000;
+  --edit-form-input-bg: #0f0f1a;
+  --edit-form-input-border: #3a3a5a;
+  --edit-form-input-text: #e0e0e0;
+  --edit-form-input-focus: #4ade80;
+  --galactico-bg: #000;
+  --galactico-text: #ffd700;
+  --galactico-content-bg: #000;
+  --countdown-text: #7c8aff;
+  --countdown-shadow: #7c8aff;
+  --mode-texts-bg: #1a3a2a;
+  --mode-texts-hover-bg: #2a4a3a;
+  --mode-texts-active-bg: #1a4a2a;
+  --mode-texts-active-border: #4ade80;
+  --mode-texts-when: #4ade80;
+  --mode-texts-icon: #4ade80;
+}
+
+.theme-dark .btn-secondary:hover { background: #3a3a5a; }
+.theme-dark .btn:disabled { opacity: 0.4; }
+.theme-dark h1, .theme-dark .top-bar h1 { color: #7c8aff; }
+.theme-dark .stats span, .theme-dark .mode-when { color: #7c8aff; }
+.theme-dark .modal h2 { color: #7c8aff; }
+.theme-dark .mode-card .mode-when { color: #7c8aff; }
+.theme-dark .focal { border-bottom-color: #7c8aff; }
+.theme-dark .pointer { color: #7c8aff; }
+.theme-dark .line-timer-fill { background: #7c8aff; }
+.theme-dark .mode-badge { color: #7c8aff; }
+.theme-dark .pause-indicator { color: #7c8aff; background: rgba(124, 138, 255, 0.15); }
+.theme-dark .sample-btn:hover { border-color: #7c8aff; color: #fff; }
+.theme-dark .chunk-opt.active { background: #7c8aff; color: #fff; border-color: #7c8aff; }
+.theme-dark .settings-btn:hover { color: #7c8aff; background: rgba(124, 138, 255, 0.1); }
+.theme-dark .mode-card[data-mode="texts"] { background: #1a3a2a; }
+.theme-dark .mode-card[data-mode="texts"]:hover { background: #2a4a3a; }
+.theme-dark .mode-card[data-mode="texts"].active { border-color: #4ade80; background: #1a4a2a; }
+.theme-dark .mode-card[data-mode="texts"] .mode-when { color: #4ade80; }
+.theme-dark .mode-card[data-mode="texts"] .mode-icon { color: #4ade80; }
+.theme-dark .saved-text-item { background: #2a2a4a; border-color: #3a3a5a; }
+.theme-dark .saved-text-item:hover { background: #3a3a5a; border-color: #4ade80; }
+.theme-dark .saved-text-item.deleted { background: #3a2a2a; border-color: #8a3a3a; }
+.theme-dark .saved-text-title { color: #e0e0e0; }
+.theme-dark .saved-text-preview { color: #888; }
+.theme-dark .saved-text-btn.use { background: #4ade80; color: #000; }
+.theme-dark .saved-text-btn.use:hover { background: #3fd870; }
+.theme-dark .saved-text-btn.edit { background: #7c8aff; color: #fff; }
+.theme-dark .saved-text-btn.edit:hover { background: #6a78ee; }
+.theme-dark .saved-text-btn.delete { background: #ef4444; color: #fff; }
+.theme-dark .saved-text-btn.delete:hover { background: #dc2626; }
+.theme-dark .saved-text-edit-form input,
+.theme-dark .saved-text-edit-form textarea { background: #0f0f1a; border-color: #3a3a5a; }
+.theme-dark .saved-text-edit-form input:focus,
+.theme-dark .saved-text-edit-form textarea:focus { border-color: #4ade80; }
+
+/* Neon theme */
+.theme-neon {
+  --bg-primary: #050510;
+  --bg-secondary: #0a0a1a;
+  --bg-tertiary: #14142a;
+  --bg-card: #14142a;
+  --bg-card-hover: #1e1e3a;
+  --bg-card-active: #0a1a2a;
+  --border-color: #1a1a3a;
+  --border-focus: #00ffff;
+  --text-primary: #e0e0ff;
+  --text-secondary: #aaa;
+  --text-muted: #888;
+  --accent-primary: #00ffff;
+  --accent-hover: #33ddff;
+  --accent-text: #000000;
+  --btn-primary-bg: #00d4ff;
+  --btn-primary-text: #000;
+  --btn-secondary-bg: #1a1a3a;
+  --btn-secondary-text: #aaa;
+  --input-bg: #0a0a1a;
+  --input-border: #1a1a3a;
+  --input-text: #e0e0ff;
+  --modal-bg: #0a0a1a;
+  --modal-border: #1a1a3a;
+  --slider-track: #1a1a3a;
+  --hl-color: #00ffff;
+  --pointer-color: #00ffff;
+  --focal-border: #00ffff;
+  --timer-fill: #00ffff;
+  --badge-color: #00ffff;
+  --pause-color: #00ffff;
+  --pause-bg: rgba(0, 212, 255, 0.15);
+  --settings-btn-hover: rgba(0, 212, 255, 0.1);
+  --settings-btn-text: #aaa;
+  --chunk-opt-active-bg: #00d4ff;
+  --chunk-opt-active-text: #000;
+  --chunk-opt-active-border: #00d4ff;
+  --sample-btn-bg: #14142a;
+  --sample-btn-border: #1a1a3a;
+  --sample-btn-text: #e0e0ff;
+  --sample-btn-hover-border: #00ffff;
+  --sample-btn-hover-text: #fff;
+  --saved-text-bg: #14142a;
+  --saved-text-border: #1a1a3a;
+  --saved-text-hover-bg: #1e1e3a;
+  --saved-text-hover-border: #00ff88;
+  --saved-text-title: #e0e0ff;
+  --saved-text-preview: #8888aa;
+  --saved-text-deleted-bg: #3a1a1a;
+  --saved-text-deleted-border: #8a2a2a;
+  --btn-use-bg: #00ff88;
+  --btn-use-text: #000;
+  --btn-use-hover-bg: #33ff99;
+  --btn-edit-bg: #00d4ff;
+  --btn-edit-text: #000;
+  --btn-edit-hover-bg: #33ddff;
+  --btn-delete-bg: #ff4444;
+  --btn-delete-text: #fff;
+  --btn-delete-hover-bg: #ff6666;
+  --btn-cancel-bg: #9ca3af;
+  --btn-cancel-text: #fff;
+  --btn-save-bg: #00ff88;
+  --btn-save-text: #000;
+  --edit-form-input-bg: #0a0a1a;
+  --edit-form-input-border: #1a1a3a;
+  --edit-form-input-text: #e0e0ff;
+  --edit-form-input-focus: #00ff88;
+  --galactico-bg: #000;
+  --galactico-text: #ffd700;
+  --galactico-content-bg: #000;
+  --countdown-text: #00ffff;
+  --countdown-shadow: #00ffff;
+  --mode-texts-bg: #0a2a1a;
+  --mode-texts-hover-bg: #1a3a2a;
+  --mode-texts-active-bg: #0a3a1a;
+  --mode-texts-active-border: #00ff88;
+  --mode-texts-when: #00ff88;
+  --mode-texts-icon: #00ff88;
+}
+
+.theme-neon .btn-secondary:hover { background: #2a2a5a; }
+.theme-neon .btn:disabled { opacity: 0.4; }
+.theme-neon h1, .theme-neon .top-bar h1 { color: #00ffff; }
+.theme-neon .stats span, .theme-neon .mode-when { color: #00ffff; }
+.theme-neon .modal h2 { color: #00ffff; }
+.theme-neon .mode-card .mode-when { color: #00ffff; }
+.theme-neon .focal { border-bottom-color: #00ffff; }
+.theme-neon .pointer { color: #00ffff; }
+.theme-neon .line-timer-fill { background: #00ffff; }
+.theme-neon .mode-badge { color: #00ffff; }
+.theme-neon .pause-indicator { color: #00ffff; background: rgba(0, 212, 255, 0.15); }
+.theme-neon .sample-btn:hover { border-color: #00ffff; color: #fff; }
+.theme-neon .chunk-opt.active { background: #00d4ff; color: #000; border-color: #00d4ff; }
+.theme-neon .settings-btn:hover { color: #00ffff; background: rgba(0, 212, 255, 0.1); }
+.theme-neon .mode-card[data-mode="texts"] { background: #0a2a1a; }
+.theme-neon .mode-card[data-mode="texts"]:hover { background: #1a3a2a; }
+.theme-neon .mode-card[data-mode="texts"].active { border-color: #00ff88; background: #0a3a1a; }
+.theme-neon .mode-card[data-mode="texts"] .mode-when { color: #00ff88; }
+.theme-neon .mode-card[data-mode="texts"] .mode-icon { color: #00ff88; }
+.theme-neon .saved-text-item { background: #14142a; border-color: #1a1a3a; }
+.theme-neon .saved-text-item:hover { background: #1e1e3a; border-color: #00ff88; }
+.theme-neon .saved-text-item.deleted { background: #3a1a1a; border-color: #8a2a2a; }
+.theme-neon .saved-text-title { color: #e0e0ff; }
+.theme-neon .saved-text-preview { color: #8888aa; }
+.theme-neon .saved-text-btn.use { background: #00ff88; color: #000; }
+.theme-neon .saved-text-btn.use:hover { background: #33ff99; }
+.theme-neon .saved-text-btn.edit { background: #00d4ff; color: #000; }
+.theme-neon .saved-text-btn.edit:hover { background: #33ddff; }
+.theme-neon .saved-text-btn.delete { background: #ff4444; color: #fff; }
+.theme-neon .saved-text-btn.delete:hover { background: #ff6666; }
+.theme-neon .saved-text-edit-form input,
+.theme-neon .saved-text-edit-form textarea { background: #0a0a1a; border-color: #1a1a3a; }
+.theme-neon .saved-text-edit-form input:focus,
+.theme-neon .saved-text-edit-form textarea:focus { border-color: #00ff88; }
+
+/* Light theme */
+.theme-light {
+  --bg-primary: #d8d8d8;
+  --bg-secondary: #c0c0c0;
+  --bg-tertiary: #b0b0b0;
+  --bg-card: #e8e8e8;
+  --bg-card-hover: #d8d8d8;
+  --bg-card-active: #c0c0e0;
+  --border-color: #888;
+  --border-focus: #1a1a4a;
+  --text-primary: #2a2a2a;
+  --text-secondary: #555;
+  --text-muted: #777;
+  --accent-primary: #1a1a4a;
+  --accent-hover: #2a2a6a;
+  --accent-text: #ffffff;
+  --btn-primary-bg: #1a1a4a;
+  --btn-primary-text: #fff;
+  --btn-secondary-bg: #b0b0b0;
+  --btn-secondary-text: #1a1a1a;
+  --input-bg: #f8f8f8;
+  --input-border: #888;
+  --input-text: #1a1a1a;
+  --modal-bg: #d0d0d0;
+  --modal-border: #888;
+  --slider-track: #888;
+  --hl-color: #1a1a4a;
+  --pointer-color: #1a1a4a;
+  --focal-border: #1a1a4a;
+  --timer-fill: #1a1a4a;
+  --badge-color: #1a1a4a;
+  --pause-color: #1a1a4a;
+  --pause-bg: rgba(26, 26, 74, 0.15);
+  --settings-btn-hover: rgba(26, 26, 74, 0.1);
+  --settings-btn-text: #1a1a1a;
+  --chunk-opt-active-bg: #1a1a4a;
+  --chunk-opt-active-text: #fff;
+  --chunk-opt-active-border: #1a1a4a;
+  --sample-btn-bg: #b0b0b0;
+  --sample-btn-border: #888;
+  --sample-btn-text: #1a1a1a;
+  --sample-btn-hover-border: #1a1a4a;
+  --sample-btn-hover-text: #fff;
+  --saved-text-bg: #e8e8e8;
+  --saved-text-border: #ccc;
+  --saved-text-hover-bg: #d8d8d8;
+  --saved-text-hover-border: #1a7a3a;
+  --saved-text-title: #1a1a1a;
+  --saved-text-preview: #555;
+  --saved-text-deleted-bg: #f8d8d8;
+  --saved-text-deleted-border: #a83a3a;
+  --btn-use-bg: #1a7a3a;
+  --btn-use-text: #fff;
+  --btn-use-hover-bg: #1a6a3a;
+  --btn-edit-bg: #1a1a4a;
+  --btn-edit-text: #fff;
+  --btn-edit-hover-bg: #1a1a3a;
+  --btn-delete-bg: #c42a2a;
+  --btn-delete-text: #fff;
+  --btn-delete-hover-bg: #a41a1a;
+  --btn-cancel-bg: #9ca3af;
+  --btn-cancel-text: #fff;
+  --btn-save-bg: #1a7a3a;
+  --btn-save-text: #fff;
+  --edit-form-input-bg: #f8f8f8;
+  --edit-form-input-border: #888;
+  --edit-form-input-text: #1a1a1a;
+  --edit-form-input-focus: #1a7a3a;
+  --galactico-bg: #000;
+  --galactico-text: #ffd700;
+  --galactico-content-bg: #000;
+  --countdown-text: #1a1a4a;
+  --countdown-shadow: #1a1a4a;
+  --mode-texts-bg: #d0e8d0;
+  --mode-texts-hover-bg: #c0d8c0;
+  --mode-texts-active-bg: #c0e8c0;
+  --mode-texts-active-border: #1a7a3a;
+  --mode-texts-when: #1a7a3a;
+  --mode-texts-icon: #1a7a3a;
+}
+
+.theme-light .top-bar { background: #c0c0c0; border-bottom-color: #888; }
+.theme-light .controls { background: #c0c0c0; border-top-color: #888; }
+.theme-light .slider-group { background: #b0b0b0; }
+.theme-light .mode-card { background: #b0b0b0; }
+.theme-light .mode-card:hover { background: #a0a0a0; }
+.theme-light .mode-card.active { border-color: #1a1a4a; background: #c0c0e0; }
+.theme-light .btn-primary { background: #1a1a4a; color: #fff; }
+.theme-light .btn-secondary { background: #b0b0b0; color: #1a1a1a; }
+.theme-light h1, .theme-light .top-bar h1 { color: #1a1a4a; }
+.theme-light .stats span, .theme-light .mode-when { color: #1a1a4a; }
+.theme-light .modal h2 { color: #1a1a4a; }
+.theme-light .modal { background: #d0d0d0; border-color: #888; }
+.theme-light .modal textarea { background: #f8f8f8; border-color: #888; color: #1a1a1a; }
+.theme-light .sample-btn { background: #b0b0b0; border-color: #888; color: #1a1a1a; }
+.theme-light .chunk-opt { background: #b0b0b0; border-color: #888; color: #1a1a1a; }
+.theme-light .chunk-opt.active { background: #1a1a4a; color: #fff; border-color: #1a1a4a; }
+.theme-light .settings-btn { color: #1a1a1a; }
+.theme-light .settings-btn:hover { color: #1a1a4a; background: rgba(26, 26, 74, 0.1); }
+.theme-light .pause-indicator { color: #1a1a4a; background: rgba(26, 26, 74, 0.15); }
+.theme-light .sample-btn:hover { border-color: #1a1a4a; color: #fff; }
+.theme-light .mode-card .mode-when { color: #1a1a4a; }
+.theme-light .mode-card[data-mode="texts"] { background: #d0e8d0; }
+.theme-light .mode-card[data-mode="texts"]:hover { background: #c0d8c0; }
+.theme-light .mode-card[data-mode="texts"].active { border-color: #1a7a3a; background: #c0e8c0; }
+.theme-light .mode-card[data-mode="texts"] .mode-when { color: #1a7a3a; }
+.theme-light .mode-card[data-mode="texts"] .mode-icon { color: #1a7a3a; }
+.theme-light .settings-modal .setting-label { color: #222; }
+.theme-light .word-display .focal { font-size: calc(4rem * var(--display-scale, 1)); }
+.theme-light .word-display .pointer { font-size: calc(4rem * var(--display-scale, 1)); }
+.theme-light .word-display.chunk-mode .chunk-word {
+  font-size: calc(3rem * var(--display-scale, 1));
+  color: var(--text-primary);
+}
+.theme-light .word-display .context-extra { font-size: calc(2rem * var(--display-scale, 1)); }
+.theme-light .saved-text-item { background: #e8e8e8; border-color: #ccc; }
+.theme-light .saved-text-item:hover { background: #d8d8d8; border-color: #1a7a3a; }
+.theme-light .saved-text-item.deleted { background: #f8d8d8; border-color: #a83a3a; }
+.theme-light .saved-text-title { color: #1a1a1a; }
+.theme-light .saved-text-preview { color: #555; }
+.theme-light .saved-text-btn.use { background: #1a7a3a; color: #fff; }
+.theme-light .saved-text-btn.use:hover { background: #1a6a3a; }
+.theme-light .saved-text-btn.edit { background: #1a1a4a; color: #fff; }
+.theme-light .saved-text-btn.edit:hover { background: #1a1a3a; }
+.theme-light .saved-text-btn.delete { background: #c42a2a; color: #fff; }
+.theme-light .saved-text-btn.delete:hover { background: #a41a1a; }
+.theme-light .saved-text-edit-form input,
+.theme-light .saved-text-edit-form textarea { background: #f8f8f8; border-color: #888; color: #1a1a1a; }
+.theme-light .saved-text-edit-form input:focus,
+.theme-light .saved-text-edit-form textarea:focus { border-color: #1a7a3a; }

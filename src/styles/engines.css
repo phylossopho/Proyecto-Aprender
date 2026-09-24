@@ -1,0 +1,213 @@
+/* ===== ENGINES.CSS - Mode-specific display styles ===== */
+
+/* Word mode (RSVP) */
+.word-display .focal {
+  font-size: calc(5rem * var(--display-scale, 1));
+  font-weight: 800;
+  color: var(--text-primary);
+  border-bottom: 3px solid var(--hl-color);
+  font-family: 'Baloo 2', cursive;
+}
+
+.word-display .pointer {
+  font-size: calc(5rem * var(--display-scale, 1));
+  font-weight: 300;
+  color: var(--pointer-color);
+  margin-right: 0.1em;
+  animation: breathe 1s ease-in-out infinite;
+  font-family: 'Baloo 2', cursive;
+}
+
+.word-display .context {
+  font-size: calc(3rem * var(--display-scale, 1));
+  font-weight: 400;
+  color: var(--text-secondary);
+}
+
+.word-display .context-extra {
+  font-size: calc(2.4rem * var(--display-scale, 1));
+  font-weight: 400;
+  color: var(--text-secondary);
+}
+
+/* Chunk mode */
+.word-display.chunk-mode .chunk-box {
+  border-color: var(--pointer-color);
+  background: rgba(124, 138, 255, 0.05);
+}
+
+.word-display.chunk-mode .focal {
+  font-size: calc(4.5rem * var(--display-scale, 1));
+}
+
+.word-display.chunk-mode .chunk-word {
+  font-size: calc(3rem * var(--display-scale, 1));
+  font-weight: 400;
+  color: var(--text-primary);
+}
+
+.word-display.chunk-mode .context-extra {
+  font-size: calc(2.4rem * var(--display-scale, 1));
+  color: var(--text-secondary);
+}
+
+/* Line mode */
+.line-display {
+  font-size: calc(2.8rem * var(--display-scale, 1));
+  font-weight: 400;
+  color: var(--text-primary);
+  max-width: 90vw;
+  text-align: center;
+  line-height: 1.4;
+  font-family: 'Nunito', sans-serif;
+}
+
+/* Galáctico mode */
+body.galactico-bg {
+  background: var(--galactico-bg) !important;
+}
+
+.word-display.galactico-display {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  background: var(--galactico-bg);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: var(--space-md);
+  z-index: 50;
+}
+
+.galactico-scroller {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  will-change: transform;
+}
+
+.galactico-content {
+  font-size: 2.5rem;
+  text-align: center;
+  line-height: 2.5;
+  letter-spacing: 3px;
+  color: var(--galactico-text);
+  font-family: 'Baloo 2', cursive;
+}
+
+.galactico-chunk {
+  margin: 1.5rem 0;
+  color: var(--galactico-text);
+}
+
+.controls {
+  z-index: 100;
+  position: relative;
+}
+
+.mode-card[data-mode="galactico"] .mode-icon {
+  color: var(--galactico-text);
+  font-size: 2rem;
+}
+
+/* Countdown number */
+.countdown-number {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 8rem;
+  font-weight: 800;
+  color: var(--countdown-text);
+  text-shadow: 0 0 30px var(--countdown-shadow), 0 0 60px var(--countdown-shadow);
+  pointer-events: none;
+  animation: countdownZoom 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  font-family: 'Baloo 2', cursive;
+}
+
+@keyframes countdownZoom {
+  0% { opacity: 0; transform: translate(-50%, -50%) scale(0.3); }
+  20% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+  80% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+  100% { opacity: 0; transform: translate(-50%, -50%) scale(2.5); }
+}
+
+.theme-light .countdown-number {
+  color: #1a1a4a;
+  text-shadow: 0 0 30px #1a1a4a, 0 0 60px #1a1a4a;
+}
+
+.theme-neon .countdown-number {
+  color: #00ffff;
+  text-shadow: 0 0 30px #00ffff, 0 0 60px #00ffff;
+}
+
+/* Word counter */
+#word-counter {
+  font-family: 'Baloo 2', cursive;
+}
+/* ===== Modos nuevos (Proyecto Aprender a Aprender): interfaz básica ===== */
+
+.bionic-display, .columna-display, .pacer-display, .sinregresion-display, .skim-display {
+  font-size: calc(1.6rem * var(--display-scale, 1));
+  line-height: 1.7;
+  color: var(--text-primary);
+  text-align: left;
+  cursor: pointer;
+  max-width: 100%;
+}
+
+.columna-angosta {
+  max-width: 340px;
+  margin: 0 auto;
+  text-align: left;
+}
+
+.pacer-texto {
+  position: relative;
+  max-width: 640px;
+  margin: 0 auto;
+  text-align: left;
+}
+
+.pacer-guia {
+  position: absolute;
+  left: -12px; right: -12px;
+  height: 3px;
+  background: var(--hl-color);
+  top: 0;
+  border-radius: 2px;
+  box-shadow: 0 0 8px var(--hl-color);
+}
+
+.sinregresion-texto .sr-palabra {
+  transition: opacity 0.4s ease;
+}
+
+.sinregresion-texto .sr-palabra.sr-leida {
+  opacity: 0.25;
+}
+
+.skim-vista-previa {
+  max-width: 560px;
+  margin: 0 auto;
+  text-align: left;
+}
+
+.skim-titulo {
+  font-weight: 700;
+  color: var(--text-secondary);
+  margin-bottom: 8px;
+}
+
+.skim-vista-previa ul {
+  margin: 0 0 12px 1.2em;
+  padding: 0;
+}
+
+.skim-nota {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+}
