@@ -4,6 +4,10 @@ export function cleanWord(word: string): string {
   return word.replace(/[.,;:!?()\-[\]{}"']/g, '');
 }
 
+export function renderWord(word: string): string {
+  return escapeHtml(word);
+}
+
 export function getEndType(word: string): EndType {
   if (/[.!?…]$/.test(word)) return 'sentence';
   if (/[,;]$/.test(word)) return 'clause';

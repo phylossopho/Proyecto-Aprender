@@ -1,6 +1,6 @@
 import type { AppState, TextChunk, EndType } from '../core/types.js';
 import { StateManager } from '../core/state.js';
-import { getPauseForEndType, cleanWord, escapeHtml } from '../utils/text-processing.js';
+import { getPauseForEndType, renderWord, escapeHtml } from '../utils/text-processing.js';
 
 export interface Engine {
   render(): void;
@@ -96,15 +96,15 @@ export class WordEngine extends BaseEngine {
     const ctxAfter = currentIndex + 1;
 
     if (ctxBefore >= 0) {
-      html += `<span class="context-extra">${cleanWord(words[ctxBefore])} </span>`;
+      html += `<span class="context-extra">${renderWord(words[ctxBefore])} </span>`;
     }
 
     for (let i = currentIndex; i < end; i++) {
-      html += `<span class="pointer">|</span><span class="focal">${cleanWord(words[i])}</span>`;
+      html += `<span class="pointer">|</span><span class="focal">${renderWord(words[i])}</span>`;
     }
 
     if (ctxAfter < words.length) {
-      html += ` <span class="context-extra">${cleanWord(words[ctxAfter])}</span>`;
+      html += ` <span class="context-extra">${renderWord(words[ctxAfter])}</span>`;
     }
 
     this.setWordDisplayClass('word-display fade-in');
@@ -161,7 +161,7 @@ export class ChunkEngine extends BaseEngine {
     let html = '<div class="chunk-box">';
 
     for (let i = 0; i < chunkWords.length; i++) {
-      html += `<span class="chunk-word">${cleanWord(chunkWords[i])}</span>`;
+      html += `<span class="chunk-word">${renderWord(chunkWords[i])}</span>`;
     }
     html += '</div>';
 
